@@ -37,14 +37,17 @@ const userInfoSchema = new Schema({
       },
       message: "Invalid date format. Please use DD-MM-YYYY.",
     },
+    default: "00.00.0000"
   },
   phone: {
     type: String,
     match: phoneRegexp,
+    default: "+38000000000"
   },
   city: {
     type: String,
     match: cityRegexp,
+    default: "City"
   },
 });
 
