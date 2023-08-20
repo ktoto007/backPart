@@ -31,31 +31,27 @@ const userSchema = new Schema(
     password: {
       type: String,
       match: passwordRegexp,
-      minlength: 6,
-      maxlength: 16,
       required: true,
     },
     token: String,
     avatar: {
       type: String,
-      required: true,
       max: 3 * 1024 * 1024,
     },
     birthday: {
       type: Date,
-      required: true,
-      validate: {
-        validator: function (value) {
-          return dateFormatRegexp.test(value);
-        },
-        message: "Invalid date format. Please use DD-MM-YYYY.",
-      },
-      default: "00.00.0000",
+      // validate: {
+      //   validator: function (value) {
+      //     return dateFormatRegexp.test(value);
+      //   },
+      //   message: "Invalid date format. Please use DD-MM-YYYY.",
+      // },
+      default: null,
     },
     phone: {
       type: String,
       match: phoneRegexp,
-      default: "+38000000000",
+      default: "+380000000000",
     },
     city: {
       type: String,

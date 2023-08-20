@@ -21,13 +21,13 @@ const petSchema = new Schema({
   },
   date: {
     type: Date,
-    required: true,
-    validate: {
-      validator: function (value) {
-        return dateFormatRegexp.test(value);
-      },
-      message: "Invalid date format. Please use DD-MM-YYYY.",
-    },
+    // required: true,
+    // validate: {
+    //   validator: function (value) {
+    //     return dateFormatRegexp.test(value);
+    //   },
+    //   message: "Invalid date format. Please use DD-MM-YYYY.",
+    // },
   },
   type: {
     type: String,
@@ -48,6 +48,7 @@ const petSchema = new Schema({
     },
   },
   location: {
+    type: String,
     required: function () {
       return ["sell", "lost-found", "in-good-hands"].includes(this.category);
     },
