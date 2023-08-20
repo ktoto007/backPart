@@ -65,7 +65,7 @@ const petSchema = new Schema({
     type: String,
     maxlength: 120,
   },
-});
+}, { versionKey: false, timestamps: true });
 
 petSchema.post("save", handleMongooseError);
 
