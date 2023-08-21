@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
-const { handleMongooseError } = require('../helpers');
+const { handleMongooseError } = require("../helpers");
 
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const passwordRegexp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
@@ -39,7 +39,8 @@ const userSchema = new Schema(
       max: 3 * 1024 * 1024,
     },
     birthday: {
-      type: Date,
+      type: String,
+      // type: Date,
       // validate: {
       //   validator: function (value) {
       //     return dateFormatRegexp.test(value);
@@ -65,36 +66,36 @@ const userSchema = new Schema(
 userSchema.post("save", handleMongooseError);
 
 const registerSchema = Joi.object({
-    name: Joi.string().min(2).max(16).required(),
-    email: Joi.string().pattern(emailRegexp).required(),
-    password: Joi.string().pattern(passwordRegexp).min(6).max(16).required()
+  name: Joi.string().min(2).max(16).required(),
+  email: Joi.string().pattern(emailRegexp).required(),
+  password: Joi.string().pattern(passwordRegexp).min(6).max(16).required(),
 });
 
 const loginSchema = Joi.object({
-    email: Joi.string().pattern(emailRegexp).required(),
-    password: Joi.string().pattern(passwordRegexp).min(6).max(16).required()
+  email: Joi.string().pattern(emailRegexp).required(),
+  password: Joi.string().pattern(passwordRegexp).min(6).max(16).required(),
 });
 
 const userInfoSchema = Joi.object({
-  avatar: Joi.string()
-    .max(3 * 1024 * 1024)
-    .required(),
+  avatar: Joi.string().max(3 * 1024 * 1024),
+  //.required()
   name: Joi.string(),
   email: Joi.string().pattern(emailRegexp).required(),
-  birthday: Joi.string().pattern(dateFormatRegexp).required(),
+  birthday: Joi.string().required(),
+  //.pattern(dateFormatRegexp)
   phone: Joi.string().pattern(phoneRegexp),
   city: Joi.string().pattern(cityRegexp),
 });
 
 const schemas = {
-    registerSchema,
-    loginSchema,
-    userInfoSchema
+  registerSchema,
+  loginSchema,
+  userInfoSchema,
 };
 
 const User = model("user", userSchema);
 
 module.exports = {
-    User,
-    schemas,
+  User,
+  schemas,
 };

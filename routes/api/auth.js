@@ -10,6 +10,14 @@ router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 
 router.post("/login", validateBody(schemas.loginSchema), ctrl.login);
 
+router.post(
+  "/updateUser",
+  upload.single("avatar"),
+  autentificate,
+  validateBody(schemas.userInfoSchema),
+  ctrl.updateUser
+);
+
 router.post("/logout", autentificate, ctrl.logout);
 
 module.exports = router;

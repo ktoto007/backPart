@@ -11,12 +11,13 @@ const register = async (req, res) => {
   const body = req.body;
 
   const { email, password } = body;
+
   const user = await User.findOne({ email });
+
   if (user) {
-    console.log(user);
     throw HttpError(409, "Email already in use");
   }
-  console.log(user.id);
+
   const hashPassword = await bcrypt.hash(password, 10);
   const avatar = gravatar.url(email);
 

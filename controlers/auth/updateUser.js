@@ -1,28 +1,37 @@
 const { User } = require("../../models/user");
-const { HttpError } = require("../../helpers");
+const path = require("path");
+const fs = require("fs/promises");
+
+const avatarsDir = path.join(__dirname, "../", "../", "public", "avatars");
+
 const updateSub = async (req, res) => {
-  const id = req.params.id;
   const userId = req.user.id;
 
-  // Перевірка, чи користувач оновлює свої дані
-  if (id !== userId) {
-    throw HttpError(400, "You do not have the right to change another user.");
-  }
+  const { path: tempUpload, originalname } = req.file;
 
-  // Обмеження полів
-  const allowedFields = ["name", "email", "birthday", "phone", "city"];
-  const updateData = {};
-  for (const field of allowedFields) {
-    if (req.body[field] !== undefined) {
-      updateData[field] = req.body[field];
-    }
-  }
+  const filename = `${userId}${originalname}`;
+  const resultUpload = path.join(avatarsDir, filename);
+
+  await fs.rename(tempUpload, resultUpload);
+
+  const avatar = path.join("avatars", filename);
 
   try {
-    const updatedUser = await User.findByIdAndUpdate(id, updateData, {
-      new: true,
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { ...req.body, avatar },
+      {
+        new: true,
+      }
+    );
+
+    res.json({
+      name: updatedUser.name,
+      email: updatedUser.email,
+      avatar,
+      birthday: updatedUser.birthday,
+      city: updatedUser.city,
     });
-    res.json(updatedUser);
   } catch (error) {
     console.error("Update user error:", error);
     res.status(500).json({ message: "Internal server error" });
