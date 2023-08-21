@@ -20,7 +20,8 @@ const petSchema = new Schema({
     required: true,
   },
   date: {
-    type: Date,
+    type: String,
+    // type: Date,
     // required: true,
     // validate: {
     //   validator: function (value) {
@@ -35,9 +36,8 @@ const petSchema = new Schema({
     maxlength: 16,
     required: true,
   },
-  file: {
+  avatar: {
     type: String,
-    required: true,
     max: 3 * 1024 * 1024,
   },
   sex: {
@@ -65,6 +65,10 @@ const petSchema = new Schema({
     type: String,
     maxlength: 120,
   },
+   owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'user'
+  }
 }, { versionKey: false, timestamps: true });
 
 petSchema.post("save", handleMongooseError);
@@ -74,9 +78,11 @@ const petValidationSchema = Joi.object({
     .valid("sell", "lost-found", "in-good-hands", "my-pet")
     .required(),
   name: Joi.string().min(2).max(16).required(),
-  date: Joi.string().pattern(dateFormatRegexp).required(),
+  date: Joi.string(),
+    // pattern(dateFormatRegexp).required(),
   type: Joi.string().min(2).max(16).required(),
-  file: Joi.string().max(3 * 1024 * 1024).required(),
+  avatar: Joi.string().max(3 * 1024 * 1024),
+  // required(),
   sex: Joi.string()
     .valid(...sexList)
     .when("category", {
