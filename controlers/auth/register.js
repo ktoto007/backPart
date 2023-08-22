@@ -35,12 +35,14 @@ const register = async (req, res) => {
   await newUser.save();
 
   res.status(201).json({
-    avatar,
-    email: newUser.email,
-    name: newUser.name,
-    city: newUser.city,
-    birthday: newUser.birthday,
-    phone: newUser.phone,
+    user: {
+      avatar,
+      email: newUser.email,
+      name: newUser.name,
+      city: newUser.city,
+      birthday: newUser.birthday,
+      phone: newUser.phone,
+    },
     token,
   });
 };
