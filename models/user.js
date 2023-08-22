@@ -5,7 +5,7 @@ const { handleMongooseError } = require("../helpers");
 
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const passwordRegexp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-const dateFormatRegexp = /^\d{2}-\d{2}-\d{4}$/;
+const dateFormatRegexp = /^\d{2}.\d{2}.\d{4}$/;
 const phoneRegexp = /^\+380\d{9}$/;
 const cityRegexp = /^[A-Za-z\s]+$/;
 
@@ -76,8 +76,6 @@ const loginSchema = Joi.object({
 });
 
 const userInfoSchema = Joi.object({
-  avatar: Joi.string().max(3 * 1024 * 1024),
-  //.required()
   name: Joi.string(),
   email: Joi.string().pattern(emailRegexp).required(),
   birthday: Joi.string().pattern(dateFormatRegexp).required(),
