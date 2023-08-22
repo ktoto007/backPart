@@ -3,7 +3,7 @@ const Joi = require("joi");
 
 const { handleMongooseError } = require("../helpers");
 
-const dateFormatRegexp = /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/;
+const dateFormatRegexp = /^\d{2}.\d{2}.\d{4}$/;
 const sexList = ["male", "female"];
 const cityRegexp = /^[A-Za-z\s]+$/;
 
@@ -21,14 +21,13 @@ const petSchema = new Schema({
   },
   date: {
     type: String,
-    // type: Date,
-    // required: true,
-    // validate: {
-    //   validator: function (value) {
-    //     return dateFormatRegexp.test(value);
-    //   },
-    //   message: "Invalid date format. Please use DD-MM-YYYY.",
-    // },
+    required: true,
+    validate: {
+      validator: function (value) {
+        return dateFormatRegexp.test(value);
+      },
+      message: "Invalid date format. Please use DD.MM.YYYY",
+    },
   },
   type: {
     type: String,
@@ -78,8 +77,7 @@ const petValidationSchema = Joi.object({
     .valid("sell", "lost-found", "in-good-hands", "my-pet")
     .required(),
   name: Joi.string().min(2).max(16).required(),
-  date: Joi.string(),
-    // pattern(dateFormatRegexp).required(),
+  date: Joi.string().pattern(dateFormatRegexp).required(),
   type: Joi.string().min(2).max(16).required(),
   avatar: Joi.string().max(3 * 1024 * 1024),
   // required(),
