@@ -1,14 +1,17 @@
 const { Pet } = require("../../models/pet");
 const path = require("path");
 const fs = require("fs/promises");
+const fixDateFormat = require('../../utils/fixDateFormat');
 
 const petPhotosDir = path.join(__dirname, "../", "../", "public", "petPhotos");
 
 const addPet = async (req, res) => {
 
   try {
+    const fixedDateOfBirth = fixDateFormat(req.body.dateOfBirth);
+
       const newPet = await Pet.create(
-          { ...req.body, owner: req.user._id },
+          { ...req.body, owner: req.user._id, dateOfBirth: fixedDateOfBirth },
     );
       
     const { path: tempUpload, originalname } = req.file;
@@ -27,7 +30,7 @@ const addPet = async (req, res) => {
 
       res.status(201).json({
         name: newPet.name,
-        date: newPet.date,
+        dateOfBirth: fixedDateOfBirth,
         type: newPet.type,
         avatar: petAvatar,
         id: newPet._id,

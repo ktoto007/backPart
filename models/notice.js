@@ -23,14 +23,8 @@ const noticeSchema = new Schema({
       required: true,
     },
     dateOfBirth: {
-        type: Date,
-         required: true,
-    // validate: {
-    //   validator: function (value) {
-    //     return dateFormatRegexp.test(value);
-    //   },
-    //   message: "Invalid date format. Please use DD.MM.YYYY",
-    // },
+      type: Date,
+      required: true,
       match: dateFormatRegexp,
     },
     type: {
@@ -78,7 +72,8 @@ const noticeValidationSchema = Joi.object({
   type: Joi.string().required(),
   sex: Joi.string().valid(...sexList).required(),
   location: Joi.string().pattern(cityRegexp).required(),
-  price: Joi.number().when("category", {
+    // avatar: Joi.string().required(),
+    price: Joi.number().when("category", {
     is: "sell",
     then: Joi.required(),
   }),

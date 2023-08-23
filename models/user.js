@@ -39,14 +39,8 @@ const userSchema = new Schema(
       max: 3 * 1024 * 1024,
     },
     birthday: {
-      type: String,
-      // validate: {
-      //   validator: function (value) {
-      //     return dateFormatRegexp.test(value);
-      //   },
-      //   message: "Invalid date format. Please use DD.MM.YYYY",
-      // },
-      default: "00.00.0000",
+      type: Date,
+      default: null,
     },
     phone: {
       type: String,

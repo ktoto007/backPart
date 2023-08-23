@@ -11,14 +11,9 @@ const petSchema = new Schema({
     required: true,
   },
   dateOfBirth: {
-    type: String,
+    type: Date,
     required: true,
-    validate: {
-      validator: function (value) {
-        return dateFormatRegexp.test(value);
-      },
-      message: "Invalid date format. Please use DD.MM.YYYY",
-    },
+    match: dateFormatRegexp,
   },
   type: {
     type: String,
@@ -42,7 +37,7 @@ petSchema.post("save", handleMongooseError);
 
 const petValidationSchema = Joi.object({
   name: Joi.string().min(2).max(16).required(),
-  date: Joi.string().pattern(dateFormatRegexp).required(),
+  dateOfBirth: Joi.string().pattern(dateFormatRegexp).required(),
   type: Joi.string().min(2).max(16).required(),
   comments: Joi.string().max(120),
 });
