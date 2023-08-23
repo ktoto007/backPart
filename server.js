@@ -1,9 +1,5 @@
 const mongoose = require("mongoose");
 const app = require("./app");
-const swaggerUi = require("swagger-ui-express");
-
-const swaggerDocument = require("./swagger.json");
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 mongoose.set("strictQuery", true);
 
