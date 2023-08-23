@@ -1,6 +1,7 @@
 const { User } = require("../../models/user");
 const path = require("path");
 const fs = require("fs/promises");
+const fixDateFormat = require('../../utils/fixDateFormat');
 
 const avatarsDir = path.join(__dirname, "../", "../", "public", "avatars");
 
@@ -17,9 +18,10 @@ const updateSub = async (req, res) => {
   const avatar = path.join("avatars", filename);
 
   try {
+    const fixedBirthday = fixDateFormat(req.body.birthday);
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { ...req.body, avatar },
+      { ...req.body, avatar, birthday: fixedBirthday },
       {
         new: true,
       }
@@ -29,7 +31,7 @@ const updateSub = async (req, res) => {
       name: updatedUser.name,
       email: updatedUser.email,
       avatar,
-      birthday: updatedUser.birthday,
+      birthday: fixedBirthday,
       city: updatedUser.city,
     });
   } catch (error) {

@@ -5,7 +5,7 @@ const { handleMongooseError } = require("../helpers");
 
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const passwordRegexp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-const dateFormatRegexp = /^\d{2}-\d{2}-\d{4}$/;
+const dateFormatRegexp = /^\d{2}.\d{2}.\d{4}$/;
 const phoneRegexp = /^\+380\d{9}$/;
 const cityRegexp = /^[A-Za-z\s]+$/;
 
@@ -39,14 +39,8 @@ const userSchema = new Schema(
       max: 3 * 1024 * 1024,
     },
     birthday: {
-      type: String,
-      // validate: {
-      //   validator: function (value) {
-      //     return dateFormatRegexp.test(value);
-      //   },
-      //   message: "Invalid date format. Please use DD.MM.YYYY",
-      // },
-      default: "00.00.0000",
+      type: Date,
+      default: null,
     },
     phone: {
       type: String,
@@ -76,8 +70,6 @@ const loginSchema = Joi.object({
 });
 
 const userInfoSchema = Joi.object({
-  avatar: Joi.string().max(3 * 1024 * 1024),
-  //.required()
   name: Joi.string(),
   email: Joi.string().pattern(emailRegexp).required(),
   birthday: Joi.string().pattern(dateFormatRegexp).required(),
