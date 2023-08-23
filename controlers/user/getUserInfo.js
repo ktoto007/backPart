@@ -3,25 +3,28 @@ const { Pet } = require("../../models/pet");
 const { HttpError } = require("../../helpers");
 
 const getUserInfo = async (req, res) => {
-    try {
-        const userId = req.user._id;
-        
-        const user = await User.findById(userId).select('-password -token -updatedAt -createdAt');
-        if (!user) {
-            throw HttpError(404, "User not found");
-        };
+  try {
+    const userId = req.user._id;
 
-        const pets = await Pet.find({ owner: userId }).select('-updatedAt -createdAt');
+    const user = await User.findById(userId).select(
+      "-password -token -updatedAt -createdAt"
+    );
+    if (!user) {
+      throw HttpError(404, "User not found");
+    }
 
-        res.json({ user, pets });
+    const pets = await Pet.find({ owner: userId }).select(
+      "-updatedAt -createdAt"
+    );
 
-    } catch (error) {
-        console.log("Error", error);
+    res.json({ user, pets });
+  } catch (error) {
+    console.log("Error", error);
 
-        res.status(500).json({
-            message: "Internal server error"
-        });
-    };
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
 };
 
 module.exports = getUserInfo;
