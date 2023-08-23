@@ -5,33 +5,36 @@ const { handleMongooseError } = require("../helpers");
 
 const dateFormatRegexp = /^\d{2}.\d{2}.\d{4}$/;
 
-const petSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
+const petSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    dateOfBirth: {
+      type: Date,
+      required: true,
+      match: dateFormatRegexp,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
+    avatar: {
+      type: String,
+      max: 3 * 1024 * 1024,
+    },
+    comments: {
+      type: String,
+      maxlength: 120,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+    },
   },
-  dateOfBirth: {
-    type: Date,
-    required: true,
-    match: dateFormatRegexp,
-  },
-  type: {
-    type: String,
-    required: true,
-  },
-  avatar: {
-    type: String,
-    max: 3 * 1024 * 1024,
-  },
-  comments: {
-    type: String,
-    maxlength: 120,
-  },
-   owner: {
-    type: Schema.Types.ObjectId,
-    ref: 'user',
-  }
-}, { versionKey: false, timestamps: true });
+  { versionKey: false, timestamps: true }
+);
 
 petSchema.post("save", handleMongooseError);
 
@@ -45,6 +48,6 @@ const petValidationSchema = Joi.object({
 const Pet = model("pets", petSchema);
 
 module.exports = {
-    Pet,
-    petValidationSchema
+  Pet,
+  petValidationSchema,
 };

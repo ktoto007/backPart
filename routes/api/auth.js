@@ -18,6 +18,8 @@ router.post(
   ctrl.updateUser
 );
 
+router.get("/current", autentificate, ctrl.getCurrent);
+
 router.post("/logout", autentificate, ctrl.logout);
 
 module.exports = router;
