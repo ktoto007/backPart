@@ -7,6 +7,7 @@ const petPhotosDir = path.join(__dirname, "../", "../", "public", "petPhotos");
 
 const addPet = async (req, res) => {
   try {
+
     const fixedDateOfBirth = fixDateFormat(req.body.dateOfBirth);
 
     const newPet = await Pet.create({
