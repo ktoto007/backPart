@@ -5,16 +5,203 @@
     "title": "YourPet backPart docs",
     "description": "Documentation on the backend part for the site YourPet, go-it students, representatives of team 1"
   },
-  "consumes": ["aplication/json", "mulripart/form-data"],
-  "produces": ["aplication/json"],
+  "consumes": ["application/json", "multipart/form-data"],
+  "produces": ["application/json"],
   "servers": [
     { "url": "http://localhost:3000" },
-    { "url": "https://yorpet-backpart-deployment.onrender.com " }
+    { "url": "https://yorpet-backpart-deployment.onrender.com" }
   ],
   "tags": [
-    { "name": "Auth", "description": "Authorization enpoints" },
-    { "name": "Pets", "description": "Pets enpoints" }
+    { "name": "Auth", "description": "Authorization endpoints" },
+    { "name": "Pets", "description": "Pets endpoints" }
   ],
-  "paths": {},
-  "components": {}
+  "paths": {
+     "/api/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "User registration data",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationRequest"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "409": {
+            "description": "Conflict - Email already in use",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User login",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Login's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {}
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {}
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {}
+          }
+        }
+      }
+    },
+   "/api/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "security": [{ "Bearer": [] }],
+        "summary": "User logout",
+        "description": "Logs out the authenticated user and clears their token.",
+    
+        "parameters": [
+         {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The token issued to the current user.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User logged out successfully",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          }
+        }
+      }
+    }
+    
+  },
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  "components": {
+    "schemas": {
+  
+
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "name":{
+             "type": "string",
+            "description": "User's Name",
+            "example": "User"
+          },
+         
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "Qwerty1234"
+          }
+        }
+      },
+
+"LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+       
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "Qwerty1234"
+          }
+        }
+      },
+
+        "Bearer":{
+                "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+
+      }
+    }
+  }
 }
