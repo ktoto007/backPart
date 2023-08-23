@@ -1,0 +1,20 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "YourPet backPart docs",
+    "description": "Documentation on the backend part for the site YourPet, go-it students, representatives of team 1"
+  },
+  "consumes": ["aplication/json", "mulripart/form-data"],
+  "produces": ["aplication/json"],
+  "servers": [
+    { "url": "http://localhost:3000" },
+    { "url": "https://yorpet-backpart-deployment.onrender.com " }
+  ],
+  "tags": [
+    { "name": "Auth", "description": "Authorization enpoints" },
+    { "name": "Pets", "description": "Pets enpoints" }
+  ],
+  "paths": {},
+  "components": {}
+}
