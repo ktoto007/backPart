@@ -6,8 +6,8 @@ const fixDateFormat = require('../../utils/fixDateFormat');
 const petPhotosDir = path.join(__dirname, "../", "../", "public", "petPhotos");
 
 const addPet = async (req, res) => {
-
   try {
+
     const fixedDateOfBirth = fixDateFormat(req.body.dateOfBirth);
 
       const newPet = await Pet.create(
@@ -35,6 +35,7 @@ const addPet = async (req, res) => {
         avatar: petAvatar,
         id: newPet._id,
         comments: newPet.comments,
+
     });
   } catch (error) {
     console.error("Update petAvatar error:", error);
