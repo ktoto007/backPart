@@ -39,9 +39,6 @@ const register = async (req, res) => {
       avatar,
       email: newUser.email,
       name: newUser.name,
-      city: newUser.city,
-      birthday: newUser.birthday,
-      phone: newUser.phone,
     },
     token,
   });

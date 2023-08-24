@@ -16,7 +16,7 @@
     { "name": "Pets", "description": "Pets endpoints" }
   ],
   "paths": {
-     "/api/auth/register": {
+    "/api/auth/register": {
       "post": {
         "tags": ["Auth"],
         "summary": "User registration",
@@ -38,18 +38,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegistrationRequest"
+                  "$ref": "#/components/schemas/RegAndLogResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "Bad request",
-            "content": {}
+            "description": "Bad request"
           },
           "409": {
-            "description": "Conflict - Email already in use",
-            "content": {}
+            "description": "Conflict - Email already in use"
           }
         }
       }
@@ -59,7 +57,6 @@
         "tags": ["Auth"],
         "summary": "User login",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Login's object",
           "required": true,
@@ -77,43 +74,76 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginRequest"
+                  "$ref": "#/components/schemas/RegAndLogResponse"
                 }
               }
             }
           },
-          "401": {
-            "description": "Unauthorized",
-            "content": {}
-          },
+
           "400": {
-            "description": "Bad request",
-            "content": {}
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {}
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {}
-          },
-          "409": {
-            "description": "Conflict",
-            "content": {}
+            "description": "Login error"
           }
         }
       }
     },
-   "/api/auth/logout": {
+    "/api/auth/updateUser": {
+      "post": {
+        "tags": ["Auth"],
+        "security": [{ "Bearer": [] }],
+        "summary": "User update",
+        "description": "update",
+        "requestBody": {
+          "description": "big User object",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatedRequest"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The token issued to the current user.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User is Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/fullUserInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
       "post": {
         "tags": ["Auth"],
         "security": [{ "Bearer": [] }],
         "summary": "User logout",
         "description": "Logs out the authenticated user and clears their token.",
-    
+
         "parameters": [
-         {
+          {
             "name": "Authorization",
             "in": "header",
             "description": "The token issued to the current user.",
@@ -126,45 +156,64 @@
         ],
         "responses": {
           "204": {
-            "description": "User logged out successfully",
-            "content": {}
+            "description": "User logged out successfully"
           },
           "401": {
-            "description": "Unauthorized",
-            "content": {}
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/auth/current": {
+      "get": {
+        "tags": ["Auth"],
+        "security": [{ "Bearer": [] }],
+        "summary": "Take current user",
+        "description": "Get cuurent info about authenticated user ",
+
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The token issued to the current user.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Information found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
     }
-    
   },
-  
-
-
-
-
-
-
-
-
-
-
-
 
   "components": {
     "schemas": {
-  
-
       "RegistrationRequest": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": ["email", "password", "name"],
         "properties": {
-          "name":{
-             "type": "string",
+          "name": {
+            "type": "string",
             "description": "User's Name",
             "example": "User"
           },
-         
+
           "email": {
             "type": "string",
             "description": "User's email",
@@ -177,12 +226,64 @@
           }
         }
       },
+      "RegAndLogResponse": {
+        "type": "object",
 
-"LoginRequest": {
+        "properties": {
+          "user": {
+            "type": "object",
+            "description": "User's object with all inform",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's Name",
+                "example": "User"
+              },
+
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              },
+              "avatar": {
+                "type": "string",
+                "description": "User's avatar"
+              }
+            }
+          },
+          "token": {
+            "type": "string",
+            "description": "User`s authorization token"
+          }
+        }
+      },
+      "CurrentResponse": {
+        "type": "object",
+
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's Name",
+            "example": "User"
+          },
+
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "User's avatar",
+            "example": "avatars/64e29ccf9104a0a862145273rose.jpg"
+          }
+        }
+      },
+
+      "LoginRequest": {
         "type": "object",
         "required": ["email", "password"],
         "properties": {
-       
           "email": {
             "type": "string",
             "description": "User's email",
@@ -195,12 +296,87 @@
           }
         }
       },
+      "UpdatedRequest": {
+        "type": "object",
+        "required": ["email", "name", "city", "phone", "birthday"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's Name",
+            "example": "User"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "user@mail.com"
+          },
+          "city": {
+            "type": "string",
+            "description": "User's city",
+            "example": "kyiv"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone",
+            "example": "+380000000000"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User's date of birthday",
+            "format": "date",
+            "example": "00.00.0000"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "User's avatar(must be  less then 3mb)",
+            "format": "binary"
+          }
+        }
+      },
+      "fullUserInfo": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's Name",
+            "example": "User"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "user@mail.com"
+          },
+          "city": {
+            "type": "string",
+            "description": "User's city",
+            "example": "kyiv"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone",
+            "example": "+380000000000"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User's date of birthday",
+            "format": "date-time",
+            "example": "2023-08-20T23:07:46.529+00:00"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "User's avatar link"
+          }
+        }
+      }
+    },
 
-        "Bearer":{
-                "type": "http",
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"
-
       }
     }
   }
