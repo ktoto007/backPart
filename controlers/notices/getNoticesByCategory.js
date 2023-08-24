@@ -14,8 +14,8 @@ const getNoticesByCategory = async (req, res) => {
       query.title = { $regex: searchQuery, $options: "i" };
     }
 
-    const currentPage = parseInt(page);
-    const itemsPerPage = parseInt(limit);
+    const currentPage = Number(page);
+    const itemsPerPage = Number(limit);
 
     const skip = (currentPage - 1) * itemsPerPage;
 

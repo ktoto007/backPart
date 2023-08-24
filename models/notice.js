@@ -34,6 +34,7 @@ const noticeSchema = new Schema(
     },
     avatar: {
       type: String,
+      required: true,
       max: 3 * 1024 * 1024,
     },
     sex: {
@@ -83,7 +84,6 @@ const noticeValidationSchema = Joi.object({
     .valid(...sexList)
     .required(),
   location: Joi.string().pattern(cityRegexp).required(),
-  // avatar: Joi.string().required(),
   price: Joi.number().when("category", {
     is: "sell",
     then: Joi.required(),
