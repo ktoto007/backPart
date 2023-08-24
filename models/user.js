@@ -70,11 +70,11 @@ const loginSchema = Joi.object({
 });
 
 const userInfoSchema = Joi.object({
-  name: Joi.string(),
+  name: Joi.string().required(),
   email: Joi.string().pattern(emailRegexp).required(),
   birthday: Joi.string().pattern(dateFormatRegexp).required(),
-  phone: Joi.string().pattern(phoneRegexp),
-  city: Joi.string().pattern(cityRegexp),
+  phone: Joi.string().pattern(phoneRegexp).required(),
+  city: Joi.string().pattern(cityRegexp).required(),
 });
 
 const schemas = {

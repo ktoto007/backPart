@@ -87,7 +87,7 @@
       }
     },
     "/api/auth/updateUser": {
-      "post": {
+      "put": {
         "tags": ["Auth"],
         "security": [{ "Bearer": [] }],
         "summary": "User update",
@@ -298,7 +298,7 @@
       },
       "UpdatedRequest": {
         "type": "object",
-        "required": ["email", "name", "city", "phone", "birthday"],
+        "required": ["email", "name", "city", "phone", "birthday", "avatar"],
         "properties": {
           "name": {
             "type": "string",

@@ -1,13 +1,17 @@
 const { User } = require("../../models/user");
 const path = require("path");
 const fs = require("fs/promises");
-const fixDateFormat = require('../../utils/fixDateFormat');
+const fixDateFormat = require("../../utils/fixDateFormat");
+const { HttpError } = require("../../helpers");
 
 const avatarsDir = path.join(__dirname, "../", "../", "public", "avatars");
 
 const updateSub = async (req, res) => {
   const userId = req.user.id;
 
+  if (!req.file) {
+    throw HttpError(400, "dont have avatars file");
+  }
   const { path: tempUpload, originalname } = req.file;
 
   const filename = `${userId}${originalname}`;
