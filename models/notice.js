@@ -8,7 +8,8 @@ const dateFormatRegexp = /^\d{2}.\d{2}.\d{4}$/;
 const sexList = ["male", "female"];
 const cityRegexp = /^[A-Za-z\s]+$/;
 
-const noticeSchema = new Schema({
+const noticeSchema = new Schema(
+  {
     category: {
       type: String,
       enum: categoryList,
@@ -41,9 +42,13 @@ const noticeSchema = new Schema({
       required: true,
     },
     location: {
-        type: String,
-        match: cityRegexp,
-        required: true,
+      type: String,
+      match: cityRegexp,
+      required: true,
+    },
+    favorite: {
+      type: Array,
+      default: [],
     },
     price: {
       type: Number,
@@ -60,29 +65,35 @@ const noticeSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "user",
     },
-}, { versionKey: false, timestamps: true });
+  },
+  { versionKey: false, timestamps: true }
+);
 
 noticeSchema.post("save", handleMongooseError);
 
 const noticeValidationSchema = Joi.object({
-  category: Joi.string().valid(...categoryList).required(),
+  category: Joi.string()
+    .valid(...categoryList)
+    .required(),
   title: Joi.string().required(),
   name: Joi.string().min(2).max(16).required(),
   dateOfBirth: Joi.string().pattern(dateFormatRegexp).required(),
   type: Joi.string().required(),
-  sex: Joi.string().valid(...sexList).required(),
+  sex: Joi.string()
+    .valid(...sexList)
+    .required(),
   location: Joi.string().pattern(cityRegexp).required(),
-    // avatar: Joi.string().required(),
-    price: Joi.number().when("category", {
+  // avatar: Joi.string().required(),
+  price: Joi.number().when("category", {
     is: "sell",
     then: Joi.required(),
   }),
   comments: Joi.string().max(120),
 });
-  
+
 const Notice = model("notices", noticeSchema);
 
 module.exports = {
-    Notice,
-    noticeValidationSchema
-}
+  Notice,
+  noticeValidationSchema,
+};
