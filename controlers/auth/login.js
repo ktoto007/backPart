@@ -31,9 +31,6 @@ const login = async (req, res) => {
       avatar: user.avatar,
       email: user.email,
       name: user.name,
-      city: user.city,
-      birthday: user.birthday,
-      phone: user.phone,
     },
   });
 };
