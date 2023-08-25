@@ -277,7 +277,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "Pet successfully deleted",
             "content": {
               "application/json": {
@@ -287,8 +287,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request"
+          "401": {
+            "description": "Not authorized"
           },
           "404": {
             "description": "Not found"
