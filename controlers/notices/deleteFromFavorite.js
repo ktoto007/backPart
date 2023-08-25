@@ -1,3 +1,4 @@
+const { use } = require("../../app");
 const { Notice } = require("../../models/notice");
 
 const removeFromFavorites = async (req, res) => {
@@ -22,6 +23,4 @@ const removeFromFavorites = async (req, res) => {
   }
 };
 
-module.exports = {
-  removeFromFavorites,
-};
+module.exports = removeFromFavorites;

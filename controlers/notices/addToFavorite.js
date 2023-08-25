@@ -22,6 +22,4 @@ const addToFavorites = async (req, res) => {
   }
 };
 
-module.exports = {
-  addToFavorites,
-};
+module.exports = addToFavorites;
