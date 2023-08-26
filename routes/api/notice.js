@@ -28,4 +28,6 @@ router.patch(
   ctrl.removeFromFavorites
 );
 
+router.get("/favorites", autentificate, ctrl.getFavorites);
+
 module.exports = router;

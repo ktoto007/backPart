@@ -5,6 +5,7 @@ const getOneNotice = require("./getOneNotice");
 const getNoticesByCategory = require("./getNoticesByCategory");
 const addToFavorites = require("./addToFavorite");
 const removeFromFavorites = require("./deleteFromFavorite");
+const getFavorites = require("./getFavorite");
 
 module.exports = {
   addNotice: ctrlWrapper(addNotice),
@@ -12,4 +13,5 @@ module.exports = {
   getNoticesByCategory: ctrlWrapper(getNoticesByCategory),
   addToFavorites: ctrlWrapper(addToFavorites),
   removeFromFavorites: ctrlWrapper(removeFromFavorites),
+  getFavorites: ctrlWrapper(getFavorites),
 };
