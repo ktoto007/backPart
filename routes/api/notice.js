@@ -18,6 +18,10 @@ router.post(
 
 router.get("/", ctrl.getNoticesByCategory);
 
+router.get("/added", autentificate, ctrl.getUsersNotices);
+
+router.delete("/delete/:noticeId", autentificate, ctrl.deleteUsersNotice);
+
 router.get("/:noticeId", ctrl.getOneNotice);
 
 router.patch("/add-to-favorites/:noticeId", autentificate, ctrl.addToFavorites);
