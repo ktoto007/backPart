@@ -34,7 +34,7 @@ const noticeSchema = new Schema(
     },
     avatar: {
       type: String,
-      required: true,
+
       max: 3 * 1024 * 1024,
     },
     sex: {
