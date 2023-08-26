@@ -11,6 +11,4 @@ const getFavorites = async (req, res) => {
   }
 };
 
-module.exports = {
-  getFavorites,
-};
+module.exports = getFavorites;

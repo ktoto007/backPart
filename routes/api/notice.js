@@ -8,6 +8,8 @@ const { validateBody, autentificate, upload } = require("../../middlevares");
 
 const { noticeValidationSchema } = require("../../models/notice");
 
+router.get("/favorites", autentificate, ctrl.getFavorites);
+
 router.post(
   "/add-notice",
   upload.single("petAvatar"),
@@ -27,7 +29,5 @@ router.patch(
   autentificate,
   ctrl.removeFromFavorites
 );
-
-router.get("/favorites", autentificate, ctrl.getFavorites);
 
 module.exports = router;
