@@ -13,7 +13,8 @@
   ],
   "tags": [
     { "name": "Auth", "description": "Authorization endpoints" },
-    { "name": "Pets", "description": "Pets endpoints" }
+    { "name": "Pets", "description": "Pets endpoints" },
+    { "name": "Notices", "description": "Notices endpoints" }
   ],
   "paths": {
     "/api/auth/register": {
@@ -199,6 +200,230 @@
           }
         }
       }
+    },
+    "/api/pets/add-pet": {
+      "post": {
+        "tags": ["Pets"],
+        "security": [{ "Bearer": [] }],
+        "summary": "Add a new pet",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The token issued to the current user",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Pet`s object",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/addPetRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Pet successfully added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/addPetResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/pets/delete-pet/:petId": {
+      "delete": {
+        "tags": ["Pets"],
+        "security": [{ "Bearer": [] }],
+        "summary": "Delete pet by id",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The token issued to the current user",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "Pet`s id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Pet successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/deletePetResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/notice/add-notice": {
+      "post": {
+        "tags": ["Notices"],
+        "security": [{ "Bearer": [] }],
+        "summary": "Add a new notice",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The token issued to the current user",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Notice`s object",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/addNoticeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Notice successfully added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/addNoticeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/notice/:noticeId": {
+      "get": {
+        "tags": ["Notices"],
+        "summary": "Get a notice by id",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "description": "Notice`s id",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getOneNoticeResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/notice/": {
+      "get": {
+        "tags": ["Notices"],
+        "summary": "Get a notices by category and search",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "description": "Notices category",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "searchQuery",
+            "in": "query",
+            "description": "for searching by words",
+            "type": "number"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Notices limit in one page",
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notices fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getNoticesByCategoryRes"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No notices found"
+          }
+        }
+      }
     }
   },
 
@@ -279,7 +504,6 @@
           }
         }
       },
-
       "LoginRequest": {
         "type": "object",
         "required": ["email", "password"],
@@ -367,6 +591,361 @@
           "avatar": {
             "type": "string",
             "description": "User's avatar link"
+          }
+        }
+      },
+      "addPetRequest": {
+        "type": "object",
+        "required": ["name", "dateOfBirth", "type", "avatar"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Pet`s name",
+            "example": "Jack"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "description": "Pet`s birthday",
+            "example": "07.07.2007"
+          },
+          "type": {
+            "type": "string",
+            "description": "Pet`s type",
+            "example": "Shepard dog"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "Pet`s photo (must be less than 3mb)",
+            "format": "binary"
+          },
+          "comments": {
+            "type": "string",
+            "description": "Comment about your pet",
+            "example": "My fluffy cat"
+          }
+        }
+      },
+      "addPetResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Pet`s name",
+            "example": "Jack"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "description": "Pet`s birthday",
+            "example": "07.07.2007"
+          },
+          "type": {
+            "type": "string",
+            "description": "Pet`s type",
+            "example": "Shepard dog"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "Pet`s photo (must be less than 3mb)",
+            "format": "binary"
+          },
+          "comments": {
+            "type": "string",
+            "description": "Comment about your pet",
+            "example": "My fluffy cat"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Pet`s id",
+            "example": "64e5af0cc491872a141147a6"
+          }
+        }
+      },
+      "deletePetResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Message about deleted pet",
+            "example": "Pet successfully deleted"
+          }
+        }
+      },
+      "addNoticeRequest": {
+        "type": "object",
+        "required": [
+          "category",
+          "title",
+          "name",
+          "dateOfBirth",
+          "type",
+          "avatar",
+          "sex",
+          "location",
+          "price"
+        ],
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Notice`s category",
+            "example": "in-good-hands"
+          },
+          "title": {
+            "type": "string",
+            "description": "Notice`s title",
+            "example": "The kitten is looking for a home"
+          },
+          "name": {
+            "type": "string",
+            "description": "Pet`s name",
+            "example": "Melissa"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "description": "Pet`s birthday",
+            "example": "01.01.1991"
+          },
+          "type": {
+            "type": "string",
+            "description": "Pet`s type",
+            "example": "Norwegian forest cat"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "Pet`s photo (must be less than 3mb)",
+            "format": "binary"
+          },
+          "sex": {
+            "type": "string",
+            "description": "Pet`s gender",
+            "example": "female"
+          },
+          "location": {
+            "type": "string",
+            "description": "Pet`s location",
+            "example": "Kyiv"
+          },
+          "price": {
+            "type": "number",
+            "description": "Pet`s price (for sell category only)",
+            "example": "100"
+          },
+          "comments": {
+            "type": "string",
+            "description": "Some comment in the notice",
+            "example": "Gentle and intelligent cat"
+          }
+        }
+      },
+      "addNoticeResponse": {
+        "type": "object",
+        "favorite": {
+          "type": "array",
+          "description": "User who added notice to favorites",
+          "example": []
+        },
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Notice`s id",
+            "example": "64e4b11aae88711dbf14a156"
+          },
+          "category": {
+            "type": "string",
+            "description": "Notice`s category",
+            "example": "in-good-hands"
+          },
+          "title": {
+            "type": "string",
+            "description": "Notice`s title",
+            "example": "The kitten is looking for a home"
+          },
+          "name": {
+            "type": "string",
+            "description": "Pet`s name",
+            "example": "Melissa"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "description": "Pet`s birthday",
+            "example": "01.01.1991"
+          },
+          "type": {
+            "type": "string",
+            "description": "Pet`s type",
+            "example": "Norwegian forest cat"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "Pet`s photo (must be less than 3mb)",
+            "format": "binary"
+          },
+          "sex": {
+            "type": "string",
+            "description": "Pet`s gender",
+            "example": "female"
+          },
+          "location": {
+            "type": "string",
+            "description": "Pet`s location",
+            "example": "Kyiv"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Id of the user who added the notice",
+            "example": "64e472f86c786ae0f94d3af7"
+          },
+          "price": {
+            "type": "number",
+            "description": "Pet`s price (for sell category only)",
+            "example": "100"
+          },
+          "comments": {
+            "type": "string",
+            "description": "Some comment in the notice",
+            "example": "Gentle and intelligent cat"
+          }
+        }
+      },
+      "getOneNoticeResponse": {
+        "type": "object",
+        "properties": {
+          "favorite": {
+            "type": "array",
+            "description": "User who added notice to favorites",
+            "example": []
+          },
+          "_id": {
+            "type": "string",
+            "description": "Notice`s id",
+            "example": "64e4b11aae88711dbf14a156"
+          },
+          "category": {
+            "type": "string",
+            "description": "Notice`s category",
+            "example": "in-good-hands"
+          },
+          "title": {
+            "type": "string",
+            "description": "Notice`s title",
+            "example": "The kitten is looking for a home"
+          },
+          "name": {
+            "type": "string",
+            "description": "Pet`s name",
+            "example": "Melissa"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "description": "Pet`s birthday",
+            "example": "01.01.1991"
+          },
+          "type": {
+            "type": "string",
+            "description": "Pet`s type",
+            "example": "Norwegian forest cat"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "Pet`s photo (must be less than 3mb)",
+            "format": "binary"
+          },
+          "sex": {
+            "type": "string",
+            "description": "Pet`s gender",
+            "example": "female"
+          },
+          "location": {
+            "type": "string",
+            "description": "Pet`s location",
+            "example": "Kyiv"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Id of the user who added the notice",
+            "example": "64e472f86c786ae0f94d3af7"
+          },
+          "price": {
+            "type": "number",
+            "description": "Pet`s price (for sell category only)",
+            "example": "100"
+          },
+          "comments": {
+            "type": "string",
+            "description": "Some comment in the notice",
+            "example": "Gentle and intelligent cat"
+          }
+        }
+      },
+      "getNoticesByCategoryRes": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "favorite": {
+              "type": "array",
+              "description": "User who added notice to favorites",
+              "example": []
+            },
+            "_id": {
+              "type": "string",
+              "description": "Notice`s id",
+              "example": "64e4b11aae88711dbf14a156"
+            },
+            "category": {
+              "type": "string",
+              "description": "Notice`s category",
+              "example": "in-good-hands"
+            },
+            "title": {
+              "type": "string",
+              "description": "Notice`s title",
+              "example": "The kitten is looking for a home"
+            },
+            "name": {
+              "type": "string",
+              "description": "Pet`s name",
+              "example": "Melissa"
+            },
+            "dateOfBirth": {
+              "type": "string",
+              "description": "Pet`s birthday",
+              "example": "01.01.1991"
+            },
+            "type": {
+              "type": "string",
+              "description": "Pet`s type",
+              "example": "Norwegian forest cat"
+            },
+            "avatar": {
+              "type": "string",
+              "description": "Pet`s photo (must be less than 3mb)",
+              "format": "binary"
+            },
+            "sex": {
+              "type": "string",
+              "description": "Pet`s gender",
+              "example": "female"
+            },
+            "location": {
+              "type": "string",
+              "description": "Pet`s location",
+              "example": "Kyiv"
+            },
+            "owner": {
+              "type": "string",
+              "description": "Id of the user who added the notice",
+              "example": "64e472f86c786ae0f94d3af7"
+            },
+            "price": {
+              "type": "number",
+              "description": "Pet`s price (for sell category only)",
+              "example": "100"
+            },
+            "comments": {
+              "type": "string",
+              "description": "Some comment in the notice",
+              "example": "Gentle and intelligent cat"
+            }
           }
         }
       }
