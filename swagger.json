@@ -53,6 +53,8 @@
         }
       }
     },
+
+
     "/api/auth/login": {
       "post": {
         "tags": ["Auth"],
@@ -87,6 +89,8 @@
         }
       }
     },
+
+
     "/api/auth/updateUser": {
       "put": {
         "tags": ["Auth"],
@@ -136,6 +140,8 @@
         }
       }
     },
+
+
     "/api/auth/logout": {
       "post": {
         "tags": ["Auth"],
@@ -165,6 +171,8 @@
         }
       }
     },
+
+
     "/api/auth/current": {
       "get": {
         "tags": ["Auth"],
@@ -201,6 +209,8 @@
         }
       }
     },
+
+
     "/api/pets/add-pet": {
       "post": {
         "tags": ["Pets"],
@@ -249,6 +259,8 @@
         }
       }
     },
+
+
     "/api/pets/delete-pet/:petId": {
       "delete": {
         "tags": ["Pets"],
@@ -296,6 +308,8 @@
         }
       }
     },
+
+
     "/api/notice/add-notice": {
       "post": {
         "tags": ["Notices"],
@@ -344,6 +358,8 @@
         }
       }
     },
+
+
     "/api/notice/:noticeId": {
       "get": {
         "tags": ["Notices"],
@@ -377,6 +393,8 @@
         }
       }
     },
+
+
     "/api/notice/": {
       "get": {
         "tags": ["Notices"],
@@ -424,8 +442,128 @@
           }
         }
       }
-    }
-  },
+    },
+
+
+    "/api/notice/add-to-favorites/:noticeId":{
+      "patch":{
+        "tags": ["Notices"],
+        "security": [{"BearerAuth": []}],
+        "summary": "Add to favourite Pets",
+         "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID of the notice to add to favorites"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notice added to favorites", "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Notice added to favorites"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Notice not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+
+      }
+    },
+
+
+      "/api/notice/favorites": {
+      "get": {
+        "tags":["Notices"],
+ "security": [{"BearerAuth": []}],
+        "summary": "Get user's favorite Pets",
+        "responses": {
+          "200": {
+            "description": "List of favorite Pets",
+            "schema": {
+              "type": "array",
+              "items": {
+               "$ref": "#/components/definitions/Notice"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+       
+      }
+    } ,
+
+
+     "/api/notice/remove-from-favorites/:noticeId": {
+      "patch": {
+        "tags": ["Notices"],
+        "summary": "Remove Pets from favorites",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the notice to be removed from favorites"
+          }
+        ],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notice removed from favorites",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Notice removed from favorites"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Notice not found"
+          },
+          "500": {
+            "description": "Internal server error"
+                }
+              }
+            }
+          }
+        },
+
 
   "components": {
     "schemas": {
@@ -451,6 +589,8 @@
           }
         }
       },
+
+
       "RegAndLogResponse": {
         "type": "object",
 
@@ -482,6 +622,8 @@
           }
         }
       },
+
+
       "CurrentResponse": {
         "type": "object",
 
@@ -504,6 +646,8 @@
           }
         }
       },
+
+
       "LoginRequest": {
         "type": "object",
         "required": ["email", "password"],
@@ -520,6 +664,8 @@
           }
         }
       },
+
+
       "UpdatedRequest": {
         "type": "object",
         "required": ["email", "name", "city", "phone", "birthday", "avatar"],
@@ -558,6 +704,8 @@
           }
         }
       },
+
+
       "fullUserInfo": {
         "type": "object",
         "properties": {
@@ -594,6 +742,8 @@
           }
         }
       },
+
+
       "addPetRequest": {
         "type": "object",
         "required": ["name", "dateOfBirth", "type", "avatar"],
@@ -625,6 +775,8 @@
           }
         }
       },
+
+
       "addPetResponse": {
         "type": "object",
         "properties": {
@@ -660,6 +812,8 @@
           }
         }
       },
+
+
       "deletePetResponse": {
         "type": "object",
         "properties": {
@@ -670,6 +824,8 @@
           }
         }
       },
+
+
       "addNoticeRequest": {
         "type": "object",
         "required": [
@@ -736,6 +892,8 @@
           }
         }
       },
+
+
       "addNoticeResponse": {
         "type": "object",
         "favorite": {
@@ -806,6 +964,7 @@
           }
         }
       },
+      
       "getOneNoticeResponse": {
         "type": "object",
         "properties": {
@@ -876,6 +1035,7 @@
           }
         }
       },
+
       "getNoticesByCategoryRes": {
         "type": "array",
         "items": {
@@ -946,10 +1106,33 @@
               "description": "Some comment in the notice",
               "example": "Gentle and intelligent cat"
             }
+            
           }
         }
       }
     },
+
+
+    "definitions": {
+    "Notice": {
+      "type": "object",
+      "properties": {
+        "property1": {
+          "type": "string"
+        },
+        "property2": {
+          "type": "number"
+        },
+        "favorite": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+
 
     "securitySchemes": {
       "Bearer": {

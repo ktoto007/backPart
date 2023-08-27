@@ -4,7 +4,7 @@ const addNotice = require("./addNotice");
 const getOneNotice = require("./getOneNotice");
 const getNoticesByCategory = require("./getNoticesByCategory");
 const addToFavorites = require("./addToFavorite");
-const removeFromFavorites = require("./deleteFromFavorite");
+const removeFromFavorites = require("./removeFromFavorites");
 const getFavorites = require("./getFavorite");
 
 module.exports = {
