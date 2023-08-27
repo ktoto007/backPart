@@ -9,7 +9,7 @@ const authRouter = require("./routes/api/auth");
 const petsRouter = require("./routes/api/pets");
 const userInfoRouter = require("./routes/api/userInfo");
 const noticeRouter = require("./routes/api/notice");
-
+const newsRourer = require("./routes/api/news");
 const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -25,6 +25,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/pets", petsRouter);
 app.use("/api/userInfo", userInfoRouter);
 app.use("/api/notice", noticeRouter);
+app.use("/api/news", newsRourer);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });

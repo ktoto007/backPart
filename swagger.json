@@ -14,8 +14,10 @@
   "tags": [
     { "name": "Auth", "description": "Authorization endpoints" },
     { "name": "Pets", "description": "Pets endpoints" },
+
     { "name": "Notices", "description": "Notices endpoints" },
     { "name": "Users", "description": "Users endpoints" }
+
   ],
   "paths": {
     "/api/auth/register": {
@@ -416,6 +418,7 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/getNoticesByCategoryResponse"
+
                 }
               }
             }
@@ -425,6 +428,7 @@
           }
         }
       }
+
     },
     "/api/added": {
       "get": {
@@ -566,6 +570,7 @@
           }
         }
       }
+
     }
   },
 
@@ -1018,7 +1023,9 @@
           }
         }
       },
+
       "getNoticesByCategoryResponse": {
+
         "type": "array",
         "items": {
           "type": "object",
@@ -1090,6 +1097,7 @@
             }
           }
         }
+
       },
       "getUsersNoticeResponse": {
         "type": "array",
@@ -1216,6 +1224,7 @@
           }
           }
         }
+
       }
     },
 
