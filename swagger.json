@@ -14,10 +14,9 @@
   "tags": [
     { "name": "Auth", "description": "Authorization endpoints" },
     { "name": "Pets", "description": "Pets endpoints" },
-
     { "name": "Notices", "description": "Notices endpoints" },
-    { "name": "Users", "description": "Users endpoints" }
-
+    { "name": "Users", "description": "Users endpoints" },
+    { "name": "News", "description": "News endpoints" }
   ],
   "paths": {
     "/api/auth/register": {
@@ -418,7 +417,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/getNoticesByCategoryResponse"
-
                 }
               }
             }
@@ -428,7 +426,6 @@
           }
         }
       }
-
     },
     "/api/added": {
       "get": {
@@ -543,7 +540,7 @@
             }
           }
         ],
-         "responses": {
+        "responses": {
           "200": {
             "description": "Information fetched successfully",
             "content": {
@@ -552,7 +549,7 @@
                   "type": "object",
                   "properties": {
                     "user": {
-                  "$ref": "#/components/schemas/fullUserInfo"
+                      "$ref": "#/components/schemas/fullUserInfo"
                     },
                     "pets": {
                       "$ref": "#/components/schemas/usersPetsResponse"
@@ -570,7 +567,47 @@
           }
         }
       }
-
+    },
+    "/api/news/": {
+      "get": {
+        "tags": ["News"],
+        "summary": "Get a news ",
+        "parameters": [
+          {
+            "name": "searchQuery",
+            "in": "query",
+            "description": "for searching by words",
+            "type": "number"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Notices limit in one page",
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "News fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getNewsByCategoryResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No news found"
+          }
+        }
+      }
     }
   },
 
@@ -1025,7 +1062,6 @@
       },
 
       "getNoticesByCategoryResponse": {
-
         "type": "array",
         "items": {
           "type": "object",
@@ -1097,7 +1133,6 @@
             }
           }
         }
-
       },
       "getUsersNoticeResponse": {
         "type": "array",
@@ -1188,43 +1223,77 @@
           "type": "object",
           "properties": {
             "_id": {
-            "type": "string",
-            "description": "Pet`s id",
-            "example": "64e5af0cc491872a141147a6"
-          },
+              "type": "string",
+              "description": "Pet`s id",
+              "example": "64e5af0cc491872a141147a6"
+            },
             "name": {
-            "type": "string",
-            "description": "Pet`s name",
-            "example": "Melissandra"
-          },
-          "dateOfBirth": {
-            "type": "string",
-            "description": "Pet`s birthday",
-            "example": "03.06.2018"
-          },
-          "type": {
-            "type": "string",
-            "description": "Pet`s type",
-            "example": "Shepard dog"
-          },
-          "comments": {
-            "type": "string",
-            "description": "Comment about your pet",
-            "example": "My fluffy cat"
-          },
-          "owner": {
-            "type": "string",
-            "description": "Pet owner`s ID",
-            "example": "64e8b5e5432cb0d9f8c42190"
-          },
-          "avatar": {
-            "type": "string",
-            "description": "Pet`s photo (must be less than 3mb)",
-            "format": "binary"
-          }
+              "type": "string",
+              "description": "Pet`s name",
+              "example": "Melissandra"
+            },
+            "dateOfBirth": {
+              "type": "string",
+              "description": "Pet`s birthday",
+              "example": "03.06.2018"
+            },
+            "type": {
+              "type": "string",
+              "description": "Pet`s type",
+              "example": "Shepard dog"
+            },
+            "comments": {
+              "type": "string",
+              "description": "Comment about your pet",
+              "example": "My fluffy cat"
+            },
+            "owner": {
+              "type": "string",
+              "description": "Pet owner`s ID",
+              "example": "64e8b5e5432cb0d9f8c42190"
+            },
+            "avatar": {
+              "type": "string",
+              "description": "Pet`s photo (must be less than 3mb)",
+              "format": "binary"
+            }
           }
         }
+      },
+      "getNewsByCategoryResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "news id",
+              "example": "64e4b11aae88711dbf14a156"
+            },
+            "imgUrl": {
+              "type": "string",
+              "description": "photo",
+              "format": "binary"
+            },
+            "title": {
+              "type": "string",
+              "description": "News title",
+              "example": "In a First, Google Goes After Puppy Fraud in Court"
+            },
 
+            "date": {
+              "type": "string",
+              "description": "date of news",
+              "example": "01.01.1991"
+            },
+
+            "text": {
+              "type": "string",
+              "description": "Pet`s location",
+              "example": "text of news"
+            }
+          }
+        }
       }
     },
 
