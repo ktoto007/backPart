@@ -1,25 +1,17 @@
 const { User } = require("../../models/user");
-const path = require("path");
-const fs = require("fs/promises");
-const fixDateFormat = require("../../utils/fixDateFormat");
-const { HttpError } = require("../../helpers");
-
-const avatarsDir = path.join(__dirname, "../", "../", "public", "avatars");
+const { fixDateFormat, uploadImgTocloud } = require("../../utils");
 
 const updateSub = async (req, res) => {
   const userId = req.user.id;
+  let avatar = req.user.avatar;
 
-  if (!req.file) {
-    throw HttpError(400, "dont have avatars file");
+  if (req.file) {
+    const { path, originalname, destination } = req.file;
+
+    const filename = `${userId}${originalname}`;
+
+    avatar = await uploadImgTocloud(path, destination, filename);
   }
-  const { path: tempUpload, originalname } = req.file;
-
-  const filename = `${userId}${originalname}`;
-  const resultUpload = path.join(avatarsDir, filename);
-
-  await fs.rename(tempUpload, resultUpload);
-
-  const avatar = path.join("avatars", filename);
 
   try {
     const fixedBirthday = fixDateFormat(req.body.birthday);

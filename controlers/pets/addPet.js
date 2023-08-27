@@ -1,13 +1,8 @@
 const { Pet } = require("../../models/pet");
-const path = require("path");
-const fs = require("fs/promises");
-const fixDateFormat = require("../../utils/fixDateFormat");
-
-const petPhotosDir = path.join(__dirname, "../", "../", "public", "petPhotos");
+const { fixDateFormat, uploadImgTocloud } = require("../../utils");
 
 const addPet = async (req, res) => {
   try {
-
     const fixedDateOfBirth = fixDateFormat(req.body.dateOfBirth);
 
     const newPet = await Pet.create({
@@ -16,18 +11,15 @@ const addPet = async (req, res) => {
       dateOfBirth: fixedDateOfBirth,
     });
 
-    const { path: tempUpload, originalname } = req.file;
+    const { path, originalname, destination } = req.file;
 
     const filename = `${newPet._id}${originalname}`;
-    const resultUpload = path.join(petPhotosDir, filename);
 
-    await fs.rename(tempUpload, resultUpload);
+    const avatar = await uploadImgTocloud(path, destination, filename);
 
-    const petAvatar = path.join("petPhotos", filename);
-
-    const updatedPet = await Pet.findByIdAndUpdate(
+    await Pet.findByIdAndUpdate(
       newPet._id,
-      { avatar: petAvatar },
+      { avatar },
       {
         new: true,
       }
@@ -37,7 +29,7 @@ const addPet = async (req, res) => {
       name: newPet.name,
       dateOfBirth: fixedDateOfBirth,
       type: newPet.type,
-      avatar: petAvatar,
+      avatar,
       id: newPet._id,
       comments: newPet.comments,
     });
