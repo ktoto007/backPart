@@ -8,19 +8,19 @@
   "consumes": ["application/json", "multipart/form-data"],
   "produces": ["application/json"],
   "servers": [
-    { "url": "http://localhost:3000" },
-    { "url": "https://yorpet-backpart-deployment.onrender.com" }
+    { "url": "https://yorpet-backpart-deployment.onrender.com/api/" },
+    { "url": "http://localhost:3000/api/" }
   ],
   "tags": [
     { "name": "Auth", "description": "Authorization endpoints" },
     { "name": "Pets", "description": "Pets endpoints" },
-
     { "name": "Notices", "description": "Notices endpoints" },
-    { "name": "Users", "description": "Users endpoints" }
-
+    { "name": "Users", "description": "Users endpoints" },
+    { "name": "News", "description": "News endpoints" }
   ],
+
   "paths": {
-    "/api/auth/register": {
+    "auth/register": {
       "post": {
         "tags": ["Auth"],
         "summary": "User registration",
@@ -56,7 +56,8 @@
         }
       }
     },
-    "/api/auth/login": {
+
+    "auth/login": {
       "post": {
         "tags": ["Auth"],
         "summary": "User login",
@@ -90,7 +91,8 @@
         }
       }
     },
-    "/api/auth/updateUser": {
+
+    "auth/updateUser": {
       "put": {
         "tags": ["Auth"],
         "security": [{ "Bearer": [] }],
@@ -139,7 +141,8 @@
         }
       }
     },
-    "/api/auth/logout": {
+
+    "auth/logout": {
       "post": {
         "tags": ["Auth"],
         "security": [{ "Bearer": [] }],
@@ -168,7 +171,8 @@
         }
       }
     },
-    "/api/auth/current": {
+
+    "auth/current": {
       "get": {
         "tags": ["Auth"],
         "security": [{ "Bearer": [] }],
@@ -204,7 +208,8 @@
         }
       }
     },
-    "/api/pets/add-pet": {
+
+    "pets/add-pet": {
       "post": {
         "tags": ["Pets"],
         "security": [{ "Bearer": [] }],
@@ -252,7 +257,8 @@
         }
       }
     },
-    "/api/pets/delete-pet/:petId": {
+
+    "pets/delete-pet/:petId": {
       "delete": {
         "tags": ["Pets"],
         "security": [{ "Bearer": [] }],
@@ -299,7 +305,8 @@
         }
       }
     },
-    "/api/notice/add-notice": {
+
+    "notice/add-notice": {
       "post": {
         "tags": ["Notices"],
         "security": [{ "Bearer": [] }],
@@ -347,7 +354,8 @@
         }
       }
     },
-    "/api/notice/:noticeId": {
+
+    "notice/:noticeId": {
       "get": {
         "tags": ["Notices"],
         "summary": "Get a notice by id",
@@ -380,7 +388,8 @@
         }
       }
     },
-    "/api/notice/": {
+
+    "notice/": {
       "get": {
         "tags": ["Notices"],
         "summary": "Get a notices by category and search",
@@ -418,7 +427,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/getNoticesByCategoryResponse"
-
                 }
               }
             }
@@ -428,13 +436,152 @@
           }
         }
       }
-
     },
-    "/api/added": {
+
+    "notice/add-to-favorites/:noticeId": {
+      "patch": {
+        "tags": ["Notices"],
+        "summary": "Add notice to  favourite  ",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The token issued to the current user",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notice added to favorites",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Notice add to favorites"
+                }
+              }
+            },
+
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Notice added to favorites"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "Notice not found"
+          }
+        }
+      }
+    },
+
+    "notice/favorites": {
+      "get": {
+        "tags": ["Notices"],
+        "summary": "Get user's favorite notices",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The token issued to the current user",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getFavoriteNotice"
+                },
+                "example": {
+                  "_id": "64e4b11aae88711dbf14a156",
+                  "category": "sell",
+                  "title": "pet which knows JAVASCRIPT",
+                  "name": "Wisdom",
+                  "dateOfBirth": "28.08.2022",
+                  "type": "senior",
+                  "sex": "female",
+                  "location": "Somewhereland",
+                  "owner": "83e472f86c786ae0f94d3ag8",
+                  "favorite": "11e7611c020204b68d963778"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "Notices not found"
+          }
+        }
+      }
+    },
+
+    "notice/remove-from-favorites/:noticeId": {
+      "patch": {
+        "tags": ["Notices"],
+        "summary": "Remove Pets from favorites",
+        "security": [{ "Bearer": [] }],
+
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The token issued to the current user",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Notice removed from favorites",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Notice removed from favorites"
+                }
+              }
+            }
+          },
+
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not not found"
+          }
+        }
+      }
+    },
+
+    "added": {
       "get": {
         "tags": ["Notices"],
         "security": [{ "Bearer": [] }],
         "summary": "Get all user`s notices",
+
         "parameters": [
           {
             "name": "Authorization",
@@ -479,11 +626,13 @@
         }
       }
     },
-    "/api/deleted/:noticeId": {
+
+    "deleted/:noticeId": {
       "delete": {
         "tags": ["Notices"],
         "security": [{ "Bearer": [] }],
         "summary": "Delete user`s notice by id",
+
         "parameters": [
           {
             "name": "Authorization",
@@ -526,11 +675,13 @@
         }
       }
     },
-    "/api/userInfo/": {
+
+    "userInfo/": {
       "get": {
         "tags": ["Users"],
         "security": [{ "Bearer": [] }],
         "summary": "Get all the information about the user and his pets",
+
         "parameters": [
           {
             "name": "Authorization",
@@ -543,7 +694,7 @@
             }
           }
         ],
-         "responses": {
+        "responses": {
           "200": {
             "description": "Information fetched successfully",
             "content": {
@@ -552,7 +703,7 @@
                   "type": "object",
                   "properties": {
                     "user": {
-                  "$ref": "#/components/schemas/fullUserInfo"
+                      "$ref": "#/components/schemas/fullUserInfo"
                     },
                     "pets": {
                       "$ref": "#/components/schemas/usersPetsResponse"
@@ -562,6 +713,7 @@
               }
             }
           },
+
           "401": {
             "description": "Not authorized"
           },
@@ -570,7 +722,47 @@
           }
         }
       }
-
+    },
+    "news/": {
+      "get": {
+        "tags": ["News"],
+        "summary": "Get a news ",
+        "parameters": [
+          {
+            "name": "searchQuery",
+            "in": "query",
+            "description": "for searching by words",
+            "type": "number"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Notices limit in one page",
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "News fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getNewsByCategoryResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No news found"
+          }
+        }
+      }
     }
   },
 
@@ -598,6 +790,7 @@
           }
         }
       },
+
       "RegAndLogResponse": {
         "type": "object",
 
@@ -629,6 +822,7 @@
           }
         }
       },
+
       "CurrentResponse": {
         "type": "object",
 
@@ -651,6 +845,7 @@
           }
         }
       },
+
       "LoginRequest": {
         "type": "object",
         "required": ["email", "password"],
@@ -667,6 +862,7 @@
           }
         }
       },
+
       "UpdatedRequest": {
         "type": "object",
         "required": ["email", "name", "city", "phone", "birthday", "avatar"],
@@ -705,6 +901,7 @@
           }
         }
       },
+
       "fullUserInfo": {
         "type": "object",
         "properties": {
@@ -741,6 +938,7 @@
           }
         }
       },
+
       "addPetRequest": {
         "type": "object",
         "required": ["name", "dateOfBirth", "type", "avatar"],
@@ -772,6 +970,7 @@
           }
         }
       },
+
       "addPetResponse": {
         "type": "object",
         "properties": {
@@ -807,6 +1006,7 @@
           }
         }
       },
+
       "deletePetResponse": {
         "type": "object",
         "properties": {
@@ -817,6 +1017,7 @@
           }
         }
       },
+
       "addNoticeRequest": {
         "type": "object",
         "required": [
@@ -883,6 +1084,7 @@
           }
         }
       },
+
       "addNoticeResponse": {
         "type": "object",
         "favorite": {
@@ -953,6 +1155,7 @@
           }
         }
       },
+
       "getOneNoticeResponse": {
         "type": "object",
         "properties": {
@@ -1025,7 +1228,6 @@
       },
 
       "getNoticesByCategoryResponse": {
-
         "type": "array",
         "items": {
           "type": "object",
@@ -1097,8 +1299,8 @@
             }
           }
         }
-
       },
+
       "getUsersNoticeResponse": {
         "type": "array",
         "items": {
@@ -1188,51 +1390,156 @@
           "type": "object",
           "properties": {
             "_id": {
-            "type": "string",
-            "description": "Pet`s id",
-            "example": "64e5af0cc491872a141147a6"
-          },
+              "type": "string",
+              "description": "Pet`s id",
+              "example": "64e5af0cc491872a141147a6"
+            },
             "name": {
+              "type": "string",
+              "description": "Pet`s name",
+              "example": "Melissandra"
+            },
+            "dateOfBirth": {
+              "type": "string",
+              "description": "Pet`s birthday",
+              "example": "03.06.2018"
+            },
+            "type": {
+              "type": "string",
+              "description": "Pet`s type",
+              "example": "Shepard dog"
+            },
+            "comments": {
+              "type": "string",
+              "description": "Comment about your pet",
+              "example": "My fluffy cat"
+            },
+            "owner": {
+              "type": "string",
+              "description": "Pet owner`s ID",
+              "example": "64e8b5e5432cb0d9f8c42190"
+            },
+            "avatar": {
+              "type": "string",
+              "description": "Pet`s photo (must be less than 3mb)",
+              "format": "binary"
+            }
+          }
+        }
+      },
+      "getNewsByCategoryResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "news id",
+              "example": "64e4b11aae88711dbf14a156"
+            },
+            "imgUrl": {
+              "type": "string",
+              "description": "photo",
+              "format": "binary"
+            },
+            "title": {
+              "type": "string",
+              "description": "News title",
+              "example": "In a First, Google Goes After Puppy Fraud in Court"
+            },
+
+            "date": {
+              "type": "string",
+              "description": "date of news",
+              "example": "01.01.1991"
+            },
+
+            "text": {
+              "type": "string",
+              "description": "Pet`s location",
+              "example": "text of news"
+            }
+          }
+        }
+      }
+    },
+
+    "getFavoriteNotice": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "_id",
+          "category",
+          "title",
+          "name",
+          "dateOfBirth",
+          "type",
+          "sex",
+          "location",
+          "owner",
+          "favorite"
+        ],
+        "properties": {
+          "_id": {
             "type": "string",
-            "description": "Pet`s name",
-            "example": "Melissandra"
+            "description": "Notice's id",
+            "example": "64e4b11aae88711dbf14a156"
+          },
+          "category": {
+            "type": "string",
+            "description": "Notice's category",
+            "example": "sell"
+          },
+          "title": {
+            "type": "string",
+            "description": "Notice's title",
+            "example": "pet which knows JAVASCRIPT"
+          },
+          "name": {
+            "type": "string",
+            "description": "Pet's name",
+            "example": "Wisdom"
           },
           "dateOfBirth": {
             "type": "string",
-            "description": "Pet`s birthday",
-            "example": "03.06.2018"
+            "description": "Pet's birthday",
+            "example": "28.08.2022"
           },
           "type": {
             "type": "string",
-            "description": "Pet`s type",
-            "example": "Shepard dog"
+            "description": "Pet's type",
+            "example": "senior"
           },
-          "comments": {
+          "sex": {
             "type": "string",
-            "description": "Comment about your pet",
-            "example": "My fluffy cat"
+            "description": "Pet's gender",
+            "example": "female"
+          },
+          "location": {
+            "type": "string",
+            "description": "Pet's location",
+            "example": "Somewhereland"
           },
           "owner": {
             "type": "string",
-            "description": "Pet owner`s ID",
-            "example": "64e8b5e5432cb0d9f8c42190"
+            "description": "Id of the user who added the notice",
+            "example": "83e472f86c786ae0f94d3ag8"
           },
-          "avatar": {
+          "favorite": {
             "type": "string",
-            "description": "Pet`s photo (must be less than 3mb)",
-            "format": "binary"
-          }
+            "description": "Pet's id",
+            "example": "11e7611c020204b68d963778"
           }
         }
-
       }
     },
 
     "securitySchemes": {
       "Bearer": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
       }
     }
   }
