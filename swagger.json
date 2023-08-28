@@ -8,8 +8,8 @@
   "consumes": ["application/json", "multipart/form-data"],
   "produces": ["application/json"],
   "servers": [
-    { "url": "http://localhost:3000" },
-    { "url": "https://yorpet-backpart-deployment.onrender.com" }
+    { "url": "https://yorpet-backpart-deployment.onrender.com/api/" },
+    { "url": "http://localhost:3000/api/" }
   ],
   "tags": [
     { "name": "Auth", "description": "Authorization endpoints" },
@@ -20,7 +20,7 @@
   ],
 
   "paths": {
-    "/api/auth/register": {
+    "auth/register": {
       "post": {
         "tags": ["Auth"],
         "summary": "User registration",
@@ -57,7 +57,7 @@
       }
     },
 
-    "/api/auth/login": {
+    "auth/login": {
       "post": {
         "tags": ["Auth"],
         "summary": "User login",
@@ -92,7 +92,7 @@
       }
     },
 
-    "/api/auth/updateUser": {
+    "auth/updateUser": {
       "put": {
         "tags": ["Auth"],
         "security": [{ "Bearer": [] }],
@@ -142,7 +142,7 @@
       }
     },
 
-    "/api/auth/logout": {
+    "auth/logout": {
       "post": {
         "tags": ["Auth"],
         "security": [{ "Bearer": [] }],
@@ -172,7 +172,7 @@
       }
     },
 
-    "/api/auth/current": {
+    "auth/current": {
       "get": {
         "tags": ["Auth"],
         "security": [{ "Bearer": [] }],
@@ -209,7 +209,7 @@
       }
     },
 
-    "/api/pets/add-pet": {
+    "pets/add-pet": {
       "post": {
         "tags": ["Pets"],
         "security": [{ "Bearer": [] }],
@@ -258,7 +258,7 @@
       }
     },
 
-    "/api/pets/delete-pet/:petId": {
+    "pets/delete-pet/:petId": {
       "delete": {
         "tags": ["Pets"],
         "security": [{ "Bearer": [] }],
@@ -306,7 +306,7 @@
       }
     },
 
-    "/api/notice/add-notice": {
+    "notice/add-notice": {
       "post": {
         "tags": ["Notices"],
         "security": [{ "Bearer": [] }],
@@ -355,7 +355,7 @@
       }
     },
 
-    "/api/notice/:noticeId": {
+    "notice/:noticeId": {
       "get": {
         "tags": ["Notices"],
         "summary": "Get a notice by id",
@@ -389,7 +389,7 @@
       }
     },
 
-    "/api/notice/": {
+    "notice/": {
       "get": {
         "tags": ["Notices"],
         "summary": "Get a notices by category and search",
@@ -438,7 +438,7 @@
       }
     },
 
-    "/api/notice/add-to-favorites/:noticeId": {
+    "notice/add-to-favorites/:noticeId": {
       "patch": {
         "tags": ["Notices"],
         "summary": "Add notice to  favourite  ",
@@ -486,7 +486,7 @@
       }
     },
 
-    "/api/notice/favorites": {
+    "notice/favorites": {
       "get": {
         "tags": ["Notices"],
         "summary": "Get user's favorite notices",
@@ -536,7 +536,7 @@
       }
     },
 
-    "/api/notice/remove-from-favorites/:noticeId": {
+    "notice/remove-from-favorites/:noticeId": {
       "patch": {
         "tags": ["Notices"],
         "summary": "Remove Pets from favorites",
@@ -576,7 +576,7 @@
       }
     },
 
-    "/api/added": {
+    "added": {
       "get": {
         "tags": ["Notices"],
         "security": [{ "Bearer": [] }],
@@ -627,7 +627,7 @@
       }
     },
 
-    "/api/deleted/:noticeId": {
+    "deleted/:noticeId": {
       "delete": {
         "tags": ["Notices"],
         "security": [{ "Bearer": [] }],
@@ -676,7 +676,7 @@
       }
     },
 
-    "/api/userInfo/": {
+    "userInfo/": {
       "get": {
         "tags": ["Users"],
         "security": [{ "Bearer": [] }],
@@ -723,7 +723,7 @@
         }
       }
     },
-    "/api/news/": {
+    "news/": {
       "get": {
         "tags": ["News"],
         "summary": "Get a news ",
