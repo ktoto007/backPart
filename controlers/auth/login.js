@@ -4,7 +4,8 @@ const jwt = require("jsonwebtoken");
 const { User } = require("../../models/user");
 const { HttpError } = require("../../helpers");
 
-const { Secret_Key } = process.env;
+// const { Secret_Key } = process.env;
+const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -20,13 +21,24 @@ const login = async (req, res) => {
     throw HttpError(401, "Email or password is wrong");
   }
 
-  const token = jwt.sign({ userId: user._id }, Secret_Key, { expiresIn: "1d" });
+  // const token = jwt.sign({ userId: user._id }, Secret_Key, { expiresIn: "1d" });
+  const accessToken = jwt.sign({ userId: user._id }, ACCESS_SECRET_KEY, {
+    expiresIn: "2m",
+  });
+  const refreshToken = jwt.sign({ userId: user._id }, REFRESH_SECRET_KEY, {
+    expiresIn: "7d",
+  });
 
-  user.token = token;
+  // user.token = token;
+  user.accessToken = accessToken;
+  user.refreshToken = refreshToken;
   await user.save();
 
   res.json({
-    token,
+    // token,
+    accessToken,
+    refreshToken,
+
     user: {
       avatar: user.avatar,
       email: user.email,

@@ -1,8 +1,9 @@
 const { Notice } = require("../../models/notice");
+const pagination = require("../../utils/pagination");
 
 const getNoticesByCategory = async (req, res) => {
   try {
-    const { category, searchQuery, page = 1, limit = 20 } = req.query;
+    const { category, searchQuery, page, limit } = req.query;
 
     let query = {};
 
@@ -14,16 +15,14 @@ const getNoticesByCategory = async (req, res) => {
       query.title = { $regex: searchQuery, $options: "i" };
     }
 
-    const currentPage = Number(page);
-    const itemsPerPage = Number(limit);
+    const { results, currentPage, totalPages } = await pagination(
+      Notice,
+      query,
+      page,
+      limit
+    );
 
-    const skip = (currentPage - 1) * itemsPerPage;
-
-    const notices = await Notice.find(query).skip(skip).limit(itemsPerPage);
-
-    const totalCount = await Notice.countDocuments(query);
-
-    if (notices.length === 0) {
+    if (results.length === 0) {
       return res.status(404).json({
         message: "No notices found",
       });
@@ -31,9 +30,9 @@ const getNoticesByCategory = async (req, res) => {
 
     res.status(200).json({
       message: "Notices fetched successfully",
-      notices,
+      notices: results,
       currentPage,
-      totalPages: Math.ceil(totalCount / itemsPerPage),
+      totalPages,
     });
   } catch (error) {
     console.log("Error fetching notices:", error);
