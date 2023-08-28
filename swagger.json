@@ -17,7 +17,6 @@
     { "name": "Notices", "description": "Notices endpoints" }
   ],
 
-
   "paths": {
     "/api/auth/register": {
       "post": {
@@ -56,7 +55,6 @@
       }
     },
 
-
     "/api/auth/login": {
       "post": {
         "tags": ["Auth"],
@@ -91,7 +89,6 @@
         }
       }
     },
-
 
     "/api/auth/updateUser": {
       "put": {
@@ -143,7 +140,6 @@
       }
     },
 
-
     "/api/auth/logout": {
       "post": {
         "tags": ["Auth"],
@@ -173,7 +169,6 @@
         }
       }
     },
-
 
     "/api/auth/current": {
       "get": {
@@ -211,7 +206,6 @@
         }
       }
     },
-
 
     "/api/pets/add-pet": {
       "post": {
@@ -262,7 +256,6 @@
       }
     },
 
-
     "/api/pets/delete-pet/:petId": {
       "delete": {
         "tags": ["Pets"],
@@ -310,7 +303,6 @@
         }
       }
     },
-
 
     "/api/notice/add-notice": {
       "post": {
@@ -361,7 +353,6 @@
       }
     },
 
-
     "/api/notice/:noticeId": {
       "get": {
         "tags": ["Notices"],
@@ -395,7 +386,6 @@
         }
       }
     },
-
 
     "/api/notice/": {
       "get": {
@@ -446,13 +436,12 @@
       }
     },
 
-
-    "/api/notice/add-to-favorites/:noticeId":{
-      "patch":{
+    "/api/notice/add-to-favorites/:noticeId": {
+      "patch": {
         "tags": ["Notices"],
-        "summary": "Add to favourite Pets",
+        "summary": "Add notice to  favourite  ",
         "security": [{ "Bearer": [] }],
-         "parameters": [
+        "parameters": [
           {
             "name": "Authorization",
             "in": "header",
@@ -474,7 +463,7 @@
                 }
               }
             },
-            
+
             "schema": {
               "type": "object",
               "properties": {
@@ -492,61 +481,64 @@
             "description": "Notice not found"
           }
         }
-
       }
     },
 
-
-  "/api/notice/favorites": {
-  "get": {
-    "tags": ["Notices"],
-    "summary": "Get user's favorite Pets",
-    "security": [{ "Bearer": [] }],
-    "parameters": [
-      {
-        "name": "Authorization",
-        "in": "header",
-        "description": "The token issued to the current user",
-        "required": true,
-        "style": "simple",
-        "schema": {
-          "type": "string"
-        }
-      }
-    ],
-    "responses": {
-      "200": {
-        "description": "Successful response",
-        "content": {
-          "application/json": {
+    "/api/notice/favorites": {
+      "get": {
+        "tags": ["Notices"],
+        "summary": "Get user's favorite notices",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The token issued to the current user",
+            "required": true,
+            "style": "simple",
             "schema": {
-              "$ref": "#/components/schemas/getFavoriteNotice"
-            },
-            "example": {
-              "_id": "64e4b11aae88711dbf14a156",
-              "category": "sell",
-              "title": "pet which knows JAVASCRIPT",
-              "name": "Wisdom",
-              "dateOfBirth": "28.08.2022",
-              "type": "senior",
-              "sex": "female",
-              "location": "Somewhereland",
-              "owner": "83e472f86c786ae0f94d3ag8",
-              "favorite": "11e7611c020204b68d963778"
+              "type": "string"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getFavoriteNotice"
+                },
+                "example": {
+                  "_id": "64e4b11aae88711dbf14a156",
+                  "category": "sell",
+                  "title": "pet which knows JAVASCRIPT",
+                  "name": "Wisdom",
+                  "dateOfBirth": "28.08.2022",
+                  "type": "senior",
+                  "sex": "female",
+                  "location": "Somewhereland",
+                  "owner": "83e472f86c786ae0f94d3ag8",
+                  "favorite": "11e7611c020204b68d963778"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "Notices not found"
           }
         }
       }
-    }
-  }
-},
+    },
 
-
-       "/api/notice/remove-from-favorites/:noticeId": {
+    "/api/notice/remove-from-favorites/:noticeId": {
       "patch": {
         "tags": ["Notices"],
         "summary": "Remove Pets from favorites",
-    "security": [{ "Bearer": [] }],
+        "security": [{ "Bearer": [] }],
 
         "parameters": [
           {
@@ -571,21 +563,17 @@
               }
             }
           },
-         
+
           "401": {
             "description": "Unauthorized"
           },
           "404": {
             "description": "Not not found"
           }
-              }
-            }
-          }
-        },
-
-
-
-
+        }
+      }
+    }
+  },
 
   "components": {
     "schemas": {
@@ -611,7 +599,6 @@
           }
         }
       },
-
 
       "RegAndLogResponse": {
         "type": "object",
@@ -645,7 +632,6 @@
         }
       },
 
-
       "CurrentResponse": {
         "type": "object",
 
@@ -669,7 +655,6 @@
         }
       },
 
-
       "LoginRequest": {
         "type": "object",
         "required": ["email", "password"],
@@ -686,7 +671,6 @@
           }
         }
       },
-
 
       "UpdatedRequest": {
         "type": "object",
@@ -727,7 +711,6 @@
         }
       },
 
-
       "fullUserInfo": {
         "type": "object",
         "properties": {
@@ -765,7 +748,6 @@
         }
       },
 
-
       "addPetRequest": {
         "type": "object",
         "required": ["name", "dateOfBirth", "type", "avatar"],
@@ -797,7 +779,6 @@
           }
         }
       },
-
 
       "addPetResponse": {
         "type": "object",
@@ -835,7 +816,6 @@
         }
       },
 
-
       "deletePetResponse": {
         "type": "object",
         "properties": {
@@ -846,7 +826,6 @@
           }
         }
       },
-
 
       "addNoticeRequest": {
         "type": "object",
@@ -914,7 +893,6 @@
           }
         }
       },
-
 
       "addNoticeResponse": {
         "type": "object",
@@ -986,7 +964,7 @@
           }
         }
       },
-      
+
       "getOneNoticeResponse": {
         "type": "object",
         "properties": {
@@ -1128,83 +1106,88 @@
               "description": "Some comment in the notice",
               "example": "Gentle and intelligent cat"
             }
-            
           }
         }
       },
 
       "getFavoriteNotice": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["_id", "category", "title", "name", "dateOfBirth", "type", "sex", "location", "owner", "favorite"],
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "Notice's id",
-            "example": "64e4b11aae88711dbf14a156"
-          },
-          "category": {
-            "type": "string",
-            "description": "Notice's category",
-            "example": "sell"
-          },
-          "title": {
-            "type": "string",
-            "description": "Notice's title",
-            "example": "pet which knows JAVASCRIPT"
-          },
-          "name": {
-            "type": "string",
-            "description": "Pet's name",
-            "example": "Wisdom"
-          },
-          "dateOfBirth": {
-            "type": "string",
-            "description": "Pet's birthday",
-            "example": "28.08.2022"
-          },
-          "type": {
-            "type": "string",
-            "description": "Pet's type",
-            "example": "senior"
-          },
-          "sex": {
-            "type": "string",
-            "description": "Pet's gender",
-            "example": "female"
-          },
-          "location": {
-            "type": "string",
-            "description": "Pet's location",
-            "example": "Somewhereland"
-          },
-          "owner": {
-            "type": "string",
-            "description": "Id of the user who added the notice",
-            "example": "83e472f86c786ae0f94d3ag8"
-          },
-          "favorite": {
-            "type": "string",
-            "description": "Pet's id",
-            "example": "11e7611c020204b68d963778"
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "_id",
+            "category",
+            "title",
+            "name",
+            "dateOfBirth",
+            "type",
+            "sex",
+            "location",
+            "owner",
+            "favorite"
+          ],
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Notice's id",
+              "example": "64e4b11aae88711dbf14a156"
+            },
+            "category": {
+              "type": "string",
+              "description": "Notice's category",
+              "example": "sell"
+            },
+            "title": {
+              "type": "string",
+              "description": "Notice's title",
+              "example": "pet which knows JAVASCRIPT"
+            },
+            "name": {
+              "type": "string",
+              "description": "Pet's name",
+              "example": "Wisdom"
+            },
+            "dateOfBirth": {
+              "type": "string",
+              "description": "Pet's birthday",
+              "example": "28.08.2022"
+            },
+            "type": {
+              "type": "string",
+              "description": "Pet's type",
+              "example": "senior"
+            },
+            "sex": {
+              "type": "string",
+              "description": "Pet's gender",
+              "example": "female"
+            },
+            "location": {
+              "type": "string",
+              "description": "Pet's location",
+              "example": "Somewhereland"
+            },
+            "owner": {
+              "type": "string",
+              "description": "Id of the user who added the notice",
+              "example": "83e472f86c786ae0f94d3ag8"
+            },
+            "favorite": {
+              "type": "string",
+              "description": "Pet's id",
+              "example": "11e7611c020204b68d963778"
+            }
           }
         }
-      }
       },
 
-    "securitySchemes": {
-           "Bearer": {
-        "type": "apiKey",
-        "name": "Authorization",
-        "in": "header"
+      "securitySchemes": {
+        "Bearer": {
+          "type": "apiKey",
+          "name": "Authorization",
+          "in": "header"
+        }
       }
-
     }
   }
 }
-  }
-
-  
-  
-
