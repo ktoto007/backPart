@@ -56,7 +56,6 @@
         }
       }
     },
-
     "auth/login": {
       "post": {
         "tags": ["Auth"],
@@ -91,7 +90,41 @@
         }
       }
     },
+    "auth/refresh": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Refreshing user tokens",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "requestBody": {
+          "description": "Refresh object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful refresh",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshResponse"
+                }
+              }
+            }
+          },
 
+          "403": {
+            "description": "Token invalid"
+          }
+        }
+      }
+    },
     "auth/updateUser": {
       "put": {
         "tags": ["Auth"],
@@ -141,7 +174,6 @@
         }
       }
     },
-
     "auth/logout": {
       "post": {
         "tags": ["Auth"],
@@ -171,7 +203,6 @@
         }
       }
     },
-
     "auth/current": {
       "get": {
         "tags": ["Auth"],
@@ -208,7 +239,6 @@
         }
       }
     },
-
     "pets/add-pet": {
       "post": {
         "tags": ["Pets"],
@@ -257,7 +287,6 @@
         }
       }
     },
-
     "pets/delete-pet/:petId": {
       "delete": {
         "tags": ["Pets"],
@@ -305,7 +334,6 @@
         }
       }
     },
-
     "notice/add-notice": {
       "post": {
         "tags": ["Notices"],
@@ -354,7 +382,6 @@
         }
       }
     },
-
     "notice/:noticeId": {
       "get": {
         "tags": ["Notices"],
@@ -388,7 +415,6 @@
         }
       }
     },
-
     "notice/": {
       "get": {
         "tags": ["Notices"],
@@ -437,7 +463,6 @@
         }
       }
     },
-
     "notice/add-to-favorites/:noticeId": {
       "patch": {
         "tags": ["Notices"],
@@ -485,7 +510,6 @@
         }
       }
     },
-
     "notice/favorites": {
       "get": {
         "tags": ["Notices"],
@@ -535,7 +559,6 @@
         }
       }
     },
-
     "notice/remove-from-favorites/:noticeId": {
       "patch": {
         "tags": ["Notices"],
@@ -575,7 +598,6 @@
         }
       }
     },
-
     "added": {
       "get": {
         "tags": ["Notices"],
@@ -626,7 +648,6 @@
         }
       }
     },
-
     "deleted/:noticeId": {
       "delete": {
         "tags": ["Notices"],
@@ -675,7 +696,6 @@
         }
       }
     },
-
     "userInfo/": {
       "get": {
         "tags": ["Users"],
@@ -790,7 +810,6 @@
           }
         }
       },
-
       "RegAndLogResponse": {
         "type": "object",
 
@@ -816,13 +835,44 @@
               }
             }
           },
-          "token": {
+          "accessToken": {
             "type": "string",
-            "description": "User`s authorization token"
+            "description": "User access token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGVjNzI1YTEzMzIyOTBmMzJhZmFmOGEiLCJpYXQiOjE2OTMyMTg4NzcsImV4cCI6MTY5MzIxODk5N30.AhqnrHQ8uEwEbuh8PeMABGjnHZ3MCoBxDQ0DaX2uMWo"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "User refresh token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGVjNzI1YTEzMzIyOTBmMzJhZmFmOGEiLCJpYXQiOjE2OTMyMTg4NzcsImV4cCI6MTY5MzgyMzY3N30.NL3ATOTcP0aCFo7__YJnUTezPcLwl2QWwtvAeVqyvs8"
           }
         }
       },
-
+      "RefreshRequest": {
+        "type": "object",
+        "required": ["refreshToken"],
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "description": "User refresh token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGVjNzI1YTEzMzIyOTBmMzJhZmFmOGEiLCJpYXQiOjE2OTMyMTg4NzcsImV4cCI6MTY5MzgyMzY3N30.NL3ATOTcP0aCFo7__YJnUTezPcLwl2QWwtvAeVqyvs8"
+          }
+        }
+      },
+      "RefreshResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "description": "User access token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGVjNzI1YTEzMzIyOTBmMzJhZmFmOGEiLCJpYXQiOjE2OTMyMTg4NzcsImV4cCI6MTY5MzIxODk5N30.AhqnrHQ8uEwEbuh8PeMABGjnHZ3MCoBxDQ0DaX2uMWo"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "User refresh token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGVjNzI1YTEzMzIyOTBmMzJhZmFmOGEiLCJpYXQiOjE2OTMyMTg4NzcsImV4cCI6MTY5MzgyMzY3N30.NL3ATOTcP0aCFo7__YJnUTezPcLwl2QWwtvAeVqyvs8"
+          }
+        }
+      },
       "CurrentResponse": {
         "type": "object",
 
@@ -845,7 +895,6 @@
           }
         }
       },
-
       "LoginRequest": {
         "type": "object",
         "required": ["email", "password"],
@@ -862,7 +911,6 @@
           }
         }
       },
-
       "UpdatedRequest": {
         "type": "object",
         "required": ["email", "name", "city", "phone", "birthday", "avatar"],
@@ -901,7 +949,6 @@
           }
         }
       },
-
       "fullUserInfo": {
         "type": "object",
         "properties": {
@@ -938,7 +985,6 @@
           }
         }
       },
-
       "addPetRequest": {
         "type": "object",
         "required": ["name", "dateOfBirth", "type", "avatar"],
@@ -970,7 +1016,6 @@
           }
         }
       },
-
       "addPetResponse": {
         "type": "object",
         "properties": {
@@ -1006,7 +1051,6 @@
           }
         }
       },
-
       "deletePetResponse": {
         "type": "object",
         "properties": {
@@ -1017,7 +1061,6 @@
           }
         }
       },
-
       "addNoticeRequest": {
         "type": "object",
         "required": [
@@ -1084,7 +1127,6 @@
           }
         }
       },
-
       "addNoticeResponse": {
         "type": "object",
         "favorite": {
@@ -1155,7 +1197,6 @@
           }
         }
       },
-
       "getOneNoticeResponse": {
         "type": "object",
         "properties": {
@@ -1226,7 +1267,6 @@
           }
         }
       },
-
       "getNoticesByCategoryResponse": {
         "type": "array",
         "items": {
@@ -1300,7 +1340,6 @@
           }
         }
       },
-
       "getUsersNoticeResponse": {
         "type": "array",
         "items": {
@@ -1461,75 +1500,74 @@
             }
           }
         }
-      }
-    },
-
-    "getFavoriteNotice": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": [
-          "_id",
-          "category",
-          "title",
-          "name",
-          "dateOfBirth",
-          "type",
-          "sex",
-          "location",
-          "owner",
-          "favorite"
-        ],
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "Notice's id",
-            "example": "64e4b11aae88711dbf14a156"
-          },
-          "category": {
-            "type": "string",
-            "description": "Notice's category",
-            "example": "sell"
-          },
-          "title": {
-            "type": "string",
-            "description": "Notice's title",
-            "example": "pet which knows JAVASCRIPT"
-          },
-          "name": {
-            "type": "string",
-            "description": "Pet's name",
-            "example": "Wisdom"
-          },
-          "dateOfBirth": {
-            "type": "string",
-            "description": "Pet's birthday",
-            "example": "28.08.2022"
-          },
-          "type": {
-            "type": "string",
-            "description": "Pet's type",
-            "example": "senior"
-          },
-          "sex": {
-            "type": "string",
-            "description": "Pet's gender",
-            "example": "female"
-          },
-          "location": {
-            "type": "string",
-            "description": "Pet's location",
-            "example": "Somewhereland"
-          },
-          "owner": {
-            "type": "string",
-            "description": "Id of the user who added the notice",
-            "example": "83e472f86c786ae0f94d3ag8"
-          },
-          "favorite": {
-            "type": "string",
-            "description": "Pet's id",
-            "example": "11e7611c020204b68d963778"
+      },
+      "getFavoriteNotice": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "_id",
+            "category",
+            "title",
+            "name",
+            "dateOfBirth",
+            "type",
+            "sex",
+            "location",
+            "owner",
+            "favorite"
+          ],
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Notice's id",
+              "example": "64e4b11aae88711dbf14a156"
+            },
+            "category": {
+              "type": "string",
+              "description": "Notice's category",
+              "example": "sell"
+            },
+            "title": {
+              "type": "string",
+              "description": "Notice's title",
+              "example": "pet which knows JAVASCRIPT"
+            },
+            "name": {
+              "type": "string",
+              "description": "Pet's name",
+              "example": "Wisdom"
+            },
+            "dateOfBirth": {
+              "type": "string",
+              "description": "Pet's birthday",
+              "example": "28.08.2022"
+            },
+            "type": {
+              "type": "string",
+              "description": "Pet's type",
+              "example": "senior"
+            },
+            "sex": {
+              "type": "string",
+              "description": "Pet's gender",
+              "example": "female"
+            },
+            "location": {
+              "type": "string",
+              "description": "Pet's location",
+              "example": "Somewhereland"
+            },
+            "owner": {
+              "type": "string",
+              "description": "Id of the user who added the notice",
+              "example": "83e472f86c786ae0f94d3ag8"
+            },
+            "favorite": {
+              "type": "string",
+              "description": "Pet's id",
+              "example": "11e7611c020204b68d963778"
+            }
           }
         }
       }

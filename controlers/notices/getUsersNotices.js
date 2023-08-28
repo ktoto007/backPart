@@ -1,23 +1,22 @@
 const { Notice } = require("../../models/notice");
+const pagination = require("../../utils/pagination");
 
 const getUsersNotices = async (req, res) => {
   const { _id } = req.user;
 
   try {
-    const { page = 1, limit = 20 } = req.query;
+    const { page, limit } = req.query;
 
-    const currentPage = Number(page);
-    const itemsPerPage = Number(limit);
+    const query = { owner: _id };
 
-    const skip = (currentPage - 1) * itemsPerPage;
+    const { results, currentPage, totalPages } = await pagination(
+      Notice,
+      query,
+      page,
+      limit
+    );
 
-    const notices = await Notice.find({ owner: _id })
-      .skip(skip)
-      .limit(itemsPerPage);
-
-    const totalCount = await Notice.countDocuments({ owner: _id });
-
-    if (notices.length === 0) {
+    if (results.length === 0) {
       return res.status(404).json({
         message: "No notices found",
       });
@@ -25,9 +24,9 @@ const getUsersNotices = async (req, res) => {
 
     res.status(200).json({
       message: "User`s notices fetched successfully",
-      notices,
+      notices: results,
       currentPage,
-      totalPages: Math.ceil(totalCount / itemsPerPage),
+      totalPages,
     });
   } catch (error) {
     console.log("Error fetching user`s notices:", error);
