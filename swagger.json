@@ -18,6 +18,7 @@
     { "name": "Users", "description": "Users endpoints" },
     { "name": "News", "description": "News endpoints" }
   ],
+
   "paths": {
     "/api/auth/register": {
       "post": {
@@ -55,6 +56,7 @@
         }
       }
     },
+
     "/api/auth/login": {
       "post": {
         "tags": ["Auth"],
@@ -89,6 +91,7 @@
         }
       }
     },
+
     "/api/auth/updateUser": {
       "put": {
         "tags": ["Auth"],
@@ -138,6 +141,7 @@
         }
       }
     },
+
     "/api/auth/logout": {
       "post": {
         "tags": ["Auth"],
@@ -167,6 +171,7 @@
         }
       }
     },
+
     "/api/auth/current": {
       "get": {
         "tags": ["Auth"],
@@ -203,6 +208,7 @@
         }
       }
     },
+
     "/api/pets/add-pet": {
       "post": {
         "tags": ["Pets"],
@@ -251,6 +257,7 @@
         }
       }
     },
+
     "/api/pets/delete-pet/:petId": {
       "delete": {
         "tags": ["Pets"],
@@ -298,6 +305,7 @@
         }
       }
     },
+
     "/api/notice/add-notice": {
       "post": {
         "tags": ["Notices"],
@@ -346,6 +354,7 @@
         }
       }
     },
+
     "/api/notice/:noticeId": {
       "get": {
         "tags": ["Notices"],
@@ -379,6 +388,7 @@
         }
       }
     },
+
     "/api/notice/": {
       "get": {
         "tags": ["Notices"],
@@ -427,11 +437,12 @@
         }
       }
     },
-    "/api/added": {
-      "get": {
+
+    "/api/notice/add-to-favorites/:noticeId": {
+      "patch": {
         "tags": ["Notices"],
+        "summary": "Add notice to  favourite  ",
         "security": [{ "Bearer": [] }],
-        "summary": "Get all user`s notices",
         "parameters": [
           {
             "name": "Authorization",
@@ -442,6 +453,146 @@
             "schema": {
               "type": "string"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notice added to favorites",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Notice add to favorites"
+                }
+              }
+            },
+
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Notice added to favorites"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "Notice not found"
+          }
+        }
+      }
+    },
+
+    "/api/notice/favorites": {
+      "get": {
+        "tags": ["Notices"],
+        "summary": "Get user's favorite notices",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The token issued to the current user",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getFavoriteNotice"
+                },
+                "example": {
+                  "_id": "64e4b11aae88711dbf14a156",
+                  "category": "sell",
+                  "title": "pet which knows JAVASCRIPT",
+                  "name": "Wisdom",
+                  "dateOfBirth": "28.08.2022",
+                  "type": "senior",
+                  "sex": "female",
+                  "location": "Somewhereland",
+                  "owner": "83e472f86c786ae0f94d3ag8",
+                  "favorite": "11e7611c020204b68d963778"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "Notices not found"
+          }
+        }
+      }
+    },
+
+    "/api/notice/remove-from-favorites/:noticeId": {
+      "patch": {
+        "tags": ["Notices"],
+        "summary": "Remove Pets from favorites",
+        "security": [{ "Bearer": [] }],
+
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The token issued to the current user",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Notice removed from favorites",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Notice removed from favorites"
+                }
+              }
+            }
+          },
+
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not not found"
+          }
+        }
+      }
+    }
+
+    "/api/added": {
+      "get": {
+        "tags": ["Notices"],
+        "security": [{ "Bearer": [] }],
+        "summary": "Get all user`s notices",
+
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The token issued to the current user",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+
           },
           {
             "name": "page",
@@ -454,15 +605,18 @@
             "in": "query",
             "description": "Notices limit in one page",
             "type": "number"
+
           }
         ],
         "responses": {
           "200": {
+
             "description": "User`s notices fetched successfully",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/getUsersNoticeResponse"
+
                 }
               }
             }
@@ -471,16 +625,20 @@
             "description": "Not authorized"
           },
           "404": {
+
             "description": "No notices found"
+
           }
         }
       }
     },
+
     "/api/deleted/:noticeId": {
       "delete": {
         "tags": ["Notices"],
         "security": [{ "Bearer": [] }],
         "summary": "Delete user`s notice by id",
+
         "parameters": [
           {
             "name": "Authorization",
@@ -491,6 +649,7 @@
             "schema": {
               "type": "string"
             }
+
           },
           {
             "name": "noticeId",
@@ -510,6 +669,7 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/deleteUsersNoticeResponse"
+
                 }
               }
             }
@@ -518,16 +678,20 @@
             "description": "Not authorized"
           },
           "404": {
+
             "description": "Not found"
+
           }
         }
       }
     },
+
     "/api/userInfo/": {
       "get": {
         "tags": ["Users"],
         "security": [{ "Bearer": [] }],
         "summary": "Get all the information about the user and his pets",
+
         "parameters": [
           {
             "name": "Authorization",
@@ -541,6 +705,7 @@
           }
         ],
         "responses": {
+
           "200": {
             "description": "Information fetched successfully",
             "content": {
@@ -555,10 +720,12 @@
                       "$ref": "#/components/schemas/usersPetsResponse"
                     }
                   }
+
                 }
               }
             }
           },
+
           "401": {
             "description": "Not authorized"
           },
@@ -605,6 +772,7 @@
           },
           "404": {
             "description": "No news found"
+
           }
         }
       }
@@ -635,6 +803,7 @@
           }
         }
       },
+
       "RegAndLogResponse": {
         "type": "object",
 
@@ -666,6 +835,7 @@
           }
         }
       },
+
       "CurrentResponse": {
         "type": "object",
 
@@ -688,6 +858,7 @@
           }
         }
       },
+
       "LoginRequest": {
         "type": "object",
         "required": ["email", "password"],
@@ -704,6 +875,7 @@
           }
         }
       },
+
       "UpdatedRequest": {
         "type": "object",
         "required": ["email", "name", "city", "phone", "birthday", "avatar"],
@@ -742,6 +914,7 @@
           }
         }
       },
+
       "fullUserInfo": {
         "type": "object",
         "properties": {
@@ -778,6 +951,7 @@
           }
         }
       },
+
       "addPetRequest": {
         "type": "object",
         "required": ["name", "dateOfBirth", "type", "avatar"],
@@ -809,6 +983,7 @@
           }
         }
       },
+
       "addPetResponse": {
         "type": "object",
         "properties": {
@@ -844,6 +1019,7 @@
           }
         }
       },
+
       "deletePetResponse": {
         "type": "object",
         "properties": {
@@ -854,6 +1030,7 @@
           }
         }
       },
+
       "addNoticeRequest": {
         "type": "object",
         "required": [
@@ -920,6 +1097,7 @@
           }
         }
       },
+
       "addNoticeResponse": {
         "type": "object",
         "favorite": {
@@ -990,6 +1168,7 @@
           }
         }
       },
+
       "getOneNoticeResponse": {
         "type": "object",
         "properties": {
@@ -1061,7 +1240,9 @@
         }
       },
 
+
       "getNoticesByCategoryResponse": {
+
         "type": "array",
         "items": {
           "type": "object",
@@ -1134,6 +1315,7 @@
           }
         }
       },
+
       "getUsersNoticeResponse": {
         "type": "array",
         "items": {
@@ -1297,11 +1479,84 @@
       }
     },
 
-    "securitySchemes": {
-      "Bearer": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
+
+      "getFavoriteNotice": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "_id",
+            "category",
+            "title",
+            "name",
+            "dateOfBirth",
+            "type",
+            "sex",
+            "location",
+            "owner",
+            "favorite"
+          ],
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Notice's id",
+              "example": "64e4b11aae88711dbf14a156"
+            },
+            "category": {
+              "type": "string",
+              "description": "Notice's category",
+              "example": "sell"
+            },
+            "title": {
+              "type": "string",
+              "description": "Notice's title",
+              "example": "pet which knows JAVASCRIPT"
+            },
+            "name": {
+              "type": "string",
+              "description": "Pet's name",
+              "example": "Wisdom"
+            },
+            "dateOfBirth": {
+              "type": "string",
+              "description": "Pet's birthday",
+              "example": "28.08.2022"
+            },
+            "type": {
+              "type": "string",
+              "description": "Pet's type",
+              "example": "senior"
+            },
+            "sex": {
+              "type": "string",
+              "description": "Pet's gender",
+              "example": "female"
+            },
+            "location": {
+              "type": "string",
+              "description": "Pet's location",
+              "example": "Somewhereland"
+            },
+            "owner": {
+              "type": "string",
+              "description": "Id of the user who added the notice",
+              "example": "83e472f86c786ae0f94d3ag8"
+            },
+            "favorite": {
+              "type": "string",
+              "description": "Pet's id",
+              "example": "11e7611c020204b68d963778"
+            }
+          }
+        }
+      },
+
+      "securitySchemes": {
+        "Bearer": {
+          "type": "apiKey",
+          "name": "Authorization",
+          "in": "header"
+        }
       }
     }
   }
