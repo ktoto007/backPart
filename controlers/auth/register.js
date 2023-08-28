@@ -5,7 +5,8 @@ const gravatar = require("gravatar");
 const { User } = require("../../models/user");
 const { HttpError } = require("../../helpers");
 
-const { Secret_Key } = process.env;
+// const { Secret_Key } = process.env;
+const { ACCESS_SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
   const body = req.body;
@@ -27,7 +28,8 @@ const register = async (req, res) => {
     avatar,
   });
 
-  const token = jwt.sign({ userId: newUser._id }, Secret_Key, {
+  // const token = jwt.sign({ userId: newUser._id }, Secret_Key, {
+  const token = jwt.sign({ userId: newUser._id }, ACCESS_SECRET_KEY, {
     expiresIn: "1d",
   });
 

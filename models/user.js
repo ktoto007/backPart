@@ -33,7 +33,9 @@ const userSchema = new Schema(
       match: passwordRegexp,
       required: true,
     },
-    token: String,
+    // token: String,
+    accessToken: String,
+    refreshToken: String,
     avatar: {
       type: String,
       max: 3 * 1024 * 1024,
@@ -76,11 +78,16 @@ const userInfoSchema = Joi.object({
   phone: Joi.string().pattern(phoneRegexp).required(),
   city: Joi.string().pattern(cityRegexp).required(),
 });
+// ======== TOKEN REFRESH SCHEMA =====
+const refreshSchema = Joi.object({
+  refreshToken: Joi.string().required()
+});
 
 const schemas = {
   registerSchema,
   loginSchema,
   userInfoSchema,
+  refreshSchema
 };
 
 const User = model("user", userSchema);

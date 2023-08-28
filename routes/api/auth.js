@@ -10,6 +10,9 @@ router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 
 router.post("/login", validateBody(schemas.loginSchema), ctrl.login);
 
+// router refresh
+router.post("/refresh", validateBody(schemas.refreshSchema), ctrl.refresh);
+
 router.put(
   "/updateUser",
   upload.single("avatar"),
