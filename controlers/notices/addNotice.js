@@ -1,9 +1,7 @@
+const { HttpError } = require("../../helpers");
 const { Notice } = require("../../models/notice");
-const path = require("path");
-const fs = require("fs/promises");
-const fixDateFormat = require("../../utils/fixDateFormat");
 
-const petPhotosDir = path.join(__dirname, "../", "../", "public", "petPhotos");
+const { fixDateFormat, uploadImgTocloud } = require("../../utils");
 
 const addNotice = async (req, res) => {
   try {
@@ -21,18 +19,17 @@ const addNotice = async (req, res) => {
       });
     }
 
-    if (req.file) {
-      const { path: tempUpload, originalname } = req.file;
-      const filename = `${result._id}${originalname}`;
-      const resultUpload = path.join(petPhotosDir, filename);
-
-      await fs.rename(tempUpload, resultUpload);
-
-      const petAvatar = path.join("petPhotos", filename);
-
-      result.avatar = petAvatar;
-      await result.save();
+    if (!req.file) {
+      res.status(400).json({ message: "bad request" });
+      return;
     }
+    const { path, originalname, destination } = req.file;
+    const filename = `${result._id}${originalname}`;
+
+    const petAvatar = await uploadImgTocloud(path, destination, filename);
+
+    result.avatar = petAvatar;
+    await result.save();
 
     res.status(201).json(result);
   } catch (error) {

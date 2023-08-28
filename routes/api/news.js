@@ -4,6 +4,6 @@ const router = express.Router();
 
 const ctrl = require("../../controlers/news");
 
-router.get("/all-news", ctrl.getAllNews);
+router.get("/", ctrl.getAllNews);
 
 module.exports = router;
