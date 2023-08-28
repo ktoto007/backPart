@@ -497,24 +497,23 @@
     },
 
 
-      "/api/notice/favorites": {
-       "get": {
+  "/api/notice/favorites": {
+  "get": {
     "tags": ["Notices"],
     "summary": "Get user's favorite Pets",
     "security": [{ "Bearer": [] }],
-      "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "The token issued to the current user",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-
+    "parameters": [
+      {
+        "name": "Authorization",
+        "in": "header",
+        "description": "The token issued to the current user",
+        "required": true,
+        "style": "simple",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
     "responses": {
       "200": {
         "description": "Successful response",
@@ -539,8 +538,8 @@
         }
       }
     }
-  }   
-    },
+  }
+},
 
 
        "/api/notice/remove-from-favorites/:noticeId": {
@@ -562,7 +561,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "Notice removed from favorites",
             "content": {
               "application/json": {
