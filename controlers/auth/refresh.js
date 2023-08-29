@@ -17,7 +17,7 @@ const refresh = async (req, res) => {
     }
     // якщо все ок - створюємо нову пару
     const accessToken = jwt.sign({ userId }, ACCESS_SECRET_KEY, {
-      expiresIn: "2m",
+      expiresIn: "30m",
     });
     const refreshToken = jwt.sign({ userId }, REFRESH_SECRET_KEY, {
       expiresIn: "7d",
