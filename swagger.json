@@ -926,6 +926,10 @@
       "fullUserInfo": {
         "type": "object",
         "properties": {
+          "_id": {
+            "type": "string",
+            "description": "User's id"
+          },
           "name": {
             "type": "string",
             "description": "User's Name",

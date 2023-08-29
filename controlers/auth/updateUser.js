@@ -34,6 +34,7 @@ const updateSub = async (req, res) => {
   );
 
   res.json({
+    _id: updatedUser._id,
     name: updatedUser.name,
     email: updatedUser.email,
     avatar,
