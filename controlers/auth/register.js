@@ -1,6 +1,5 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const gravatar = require("gravatar");
 
 const { User } = require("../../models/user");
 const { HttpError } = require("../../helpers");
@@ -19,7 +18,8 @@ const register = async (req, res) => {
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
-  const avatar = gravatar.url(email);
+  const avatar =
+    "https://res.cloudinary.com/dhsgllsgh/image/upload/v1693246509/default_for_new_user.png";
 
   const newUser = await User.create({
     ...body,
@@ -39,6 +39,7 @@ const register = async (req, res) => {
       avatar,
       email: newUser.email,
       name: newUser.name,
+      id: newUser._id,
     },
     token,
   });

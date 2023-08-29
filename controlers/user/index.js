@@ -1,7 +1,6 @@
 const { ctrlWrapper } = require("../../helpers");
-const getUserInfo = require('./getUserInfo');
+const profile = require("./profile");
 
 module.exports = {
-    getUserInfo: ctrlWrapper(getUserInfo),
-}
-
+  profile: ctrlWrapper(profile),
+};

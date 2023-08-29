@@ -8,30 +8,26 @@ const { validateBody, autentificate, upload } = require("../../middlevares");
 
 const { noticeValidationSchema } = require("../../models/notice");
 
-router.get("/favorites", autentificate, ctrl.getFavorites);
+router.get("/marked", autentificate, ctrl.getFavorites);
 
 router.post(
-  "/add-notice",
+  "/add",
   upload.single("petAvatar"),
   autentificate,
   validateBody(noticeValidationSchema),
   ctrl.addNotice
 );
 
-router.get("/", ctrl.getNoticesByCategory);
+router.get("/search", ctrl.getNoticesByCategory);
 
 router.get("/added", autentificate, ctrl.getUsersNotices);
 
-router.delete("/delete/:noticeId", autentificate, ctrl.deleteUsersNotice);
-
 router.get("/:noticeId", ctrl.getOneNotice);
 
-router.patch("/add-to-favorites/:noticeId", autentificate, ctrl.addToFavorites);
+router.delete("/delete/:noticeId", autentificate, ctrl.deleteUsersNotice);
 
-router.patch(
-  "/remove-from-favorites/:noticeId",
-  autentificate,
-  ctrl.removeFromFavorites
-);
+router.patch("/mark/:noticeId", autentificate, ctrl.addToFavorites);
+
+router.patch("/unmark/:noticeId", autentificate, ctrl.removeFromFavorites);
 
 module.exports = router;

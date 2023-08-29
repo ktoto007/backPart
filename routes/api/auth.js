@@ -11,14 +11,14 @@ router.post("/register", validateBody(schemas.registerSchema), ctrl.register);
 router.post("/login", validateBody(schemas.loginSchema), ctrl.login);
 
 router.put(
-  "/updateUser",
+  "/update",
   upload.single("avatar"),
   autentificate,
   validateBody(schemas.userInfoSchema),
   ctrl.updateUser
 );
 
-router.get("/current", autentificate, ctrl.getCurrent);
+router.get("/current", autentificate, ctrl.current);
 
 router.post("/logout", autentificate, ctrl.logout);
 

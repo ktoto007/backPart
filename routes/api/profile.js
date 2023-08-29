@@ -6,6 +6,6 @@ const ctrl = require("../../controlers/user");
 
 const { autentificate } = require("../../middlevares");
 
-router.get("/", autentificate, ctrl.getUserInfo);
+router.get("/", autentificate, ctrl.profile);
 
 module.exports = router;

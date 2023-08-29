@@ -14,13 +14,13 @@ const {
 const { petValidationSchema } = require("../../models/pet");
 
 router.post(
-  "/add-pet",
+  "/add",
   upload.single("petAvatar"),
   autentificate,
   validateBody(petValidationSchema),
   ctrl.addPet
 );
 
-router.delete("/delete-pet/:petId", autentificate, isValidId, ctrl.deletePet);
+router.delete("/delete/:petId", autentificate, isValidId, ctrl.deletePet);
 
 module.exports = router;

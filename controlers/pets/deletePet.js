@@ -8,9 +8,7 @@ const deletePet = async (req, res) => {
   if (!result) {
     throw HttpError(404, "Not Found");
   }
-  res.json({
-    message: "pet successfully deleted",
-  });
+  res.status(204).json();
 };
 
 module.exports = deletePet;
