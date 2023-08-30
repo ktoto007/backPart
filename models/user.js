@@ -36,7 +36,6 @@ const userSchema = new Schema(
     token: String,
     avatar: {
       type: String,
-      max: 3 * 1024 * 1024,
     },
     birthday: {
       type: Date,
