@@ -200,7 +200,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CurrentResponse"
+                  "$ref": "#/components/schemas/fullUserInfo"
                 }
               }
             }
@@ -836,33 +836,6 @@
           "token": {
             "type": "string",
             "description": "User`s authorization token"
-          }
-        }
-      },
-
-      "CurrentResponse": {
-        "type": "object",
-
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "user id"
-          },
-          "name": {
-            "type": "string",
-            "description": "User's Name",
-            "example": "User"
-          },
-
-          "email": {
-            "type": "string",
-            "description": "User's email",
-            "format": "email"
-          },
-          "avatar": {
-            "type": "string",
-            "description": "User's avatar",
-            "example": "avatars/64e29ccf9104a0a862145273rose.jpg"
           }
         }
       },
