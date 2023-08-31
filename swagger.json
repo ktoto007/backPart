@@ -429,22 +429,6 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "No notices found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "notices": {
-                      "type": "array",
-                      "description": "empty notices array",
-                      "example": []
-                    }
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -626,22 +610,6 @@
           },
           "401": {
             "description": "Not authorized"
-          },
-          "404": {
-            "description": "No notices found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "notices": {
-                      "type": "array",
-                      "description": "empty notices array",
-                      "example": []
-                    }
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -689,7 +657,7 @@
       }
     },
 
-    "profile/": {
+    "/profile/": {
       "get": {
         "tags": ["Users"],
         "security": [{ "Bearer": [] }],
@@ -770,9 +738,6 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "No news found"
           }
         }
       }
