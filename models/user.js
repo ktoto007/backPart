@@ -58,22 +58,86 @@ const userSchema = new Schema(
 userSchema.post("save", handleMongooseError);
 
 const registerSchema = Joi.object({
-  name: Joi.string().min(2).max(16).required(),
-  email: Joi.string().pattern(emailRegexp).required(),
-  password: Joi.string().pattern(passwordRegexp).min(6).max(16).required(),
+  name: Joi.string().min(2).max(16).required().messages({
+    "string.base": "The name field must be a string.",
+    "any.required": "The name field is required.",
+    "string.empty": "The name field must not be empty.",
+    "string.min": "The name must be not less 2 symbols.",
+    "string.max": "The name must not exceed 16 symbols.",
+  }),
+  email: Joi.string().pattern(emailRegexp).required().messages({
+    "string.base": "The email field must be a string.",
+    "any.required": "The email field is required.",
+    "string.empty": "The email field must not be empty.",
+    "string.pattern.base": "Invalid email format. Please provide a valid email address."
+  }),
+  password: Joi.string()
+    .pattern(passwordRegexp)
+    .min(6)
+    .max(16)
+    .required()
+    .messages({
+      "string.base": "The password field must be a string.",
+      "any.required": "The password field is required.",
+      "string.empty": "The password field must not be empty.",
+      "string.min": "The password must be not less 6 symbols.",
+      "string.max": "The name must not exceed 16 symbols.",
+      "string.pattern.base": "Password must contain at least one lowercase letter, one uppercase letter, and one digit."
+    }),
 });
 
 const loginSchema = Joi.object({
-  email: Joi.string().pattern(emailRegexp).required(),
-  password: Joi.string().pattern(passwordRegexp).min(6).max(16).required(),
+  email: Joi.string().pattern(emailRegexp).required().messages({
+    "string.base": "The email field must be a string.",
+    "any.required": "The email field is required.",
+    "string.empty": "The email field must not be empty.",
+    "string.pattern.base": "Invalid email format. Please provide a valid email address."
+  }),
+  password: Joi.string()
+    .pattern(passwordRegexp)
+    .min(6)
+    .max(16)
+    .required()
+    .messages({
+      "string.base": "The password field must be a string.",
+      "any.required": "The password field is required.",
+      "string.empty": "The password field must not be empty.",
+      "string.min": "The password must be not less 6 symbols.",
+      "string.max": "The name must not exceed 16 symbols.",
+      "string.pattern.base": "Password must contain at least one lowercase letter, one uppercase letter, and one digit."
+    }),
 });
 
 const userInfoSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().pattern(emailRegexp).required(),
-  birthday: Joi.string().pattern(dateFormatRegexp).required(),
-  phone: Joi.string().pattern(phoneRegexp).required(),
-  city: Joi.string().pattern(cityRegexp).required(),
+  name: Joi.string().required().messages({
+    "string.base": "The name field must be a string.",
+    "any.required": "The name field is required.",
+    "string.empty": "The name field must not be empty.",
+  }),
+  email: Joi.string().pattern(emailRegexp).required().messages({
+    "string.base": "The email field must be a string.",
+    "any.required": "The email field is required.",
+    "string.empty": "The email field must not be empty.",
+  }),
+  birthday: Joi.string().pattern(dateFormatRegexp).required().messages({
+    "string.base": "The birthday field must be a string.",
+    "any.required": "The birthday field is required.",
+    "string.empty": "The birthday field must not be empty.",
+    "string.pattern.base": "Invalid date format. Use DD-MM-YYYY.",
+  }),
+  phone: Joi.string().pattern(phoneRegexp).required().messages({
+    "string.base": "The phone field must be a string.",
+    "any.required": "The phone field is required.",
+    "string.empty": "The phone field must not be empty.",
+    "string.pattern.base":
+      "Invalid phone format. Make sure you use the number format '+380XXXXXXXXX'.",
+  }),
+  city: Joi.string().pattern(cityRegexp).required().messages({
+    "string.base": "The city field must be a string.",
+    "any.required": "The city field is required.",
+    "string.empty": "The city field must not be empty.",
+    "string.pattern.base": "City name must only contain letters and spaces",
+  }),
 });
 
 const schemas = {

@@ -1180,149 +1180,179 @@
       },
 
       "getNoticesByCategoryResponse": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "favorite": {
-              "type": "array",
-              "description": "User who added notice to favorites",
-              "example": []
-            },
-            "_id": {
-              "type": "string",
-              "description": "Notice`s id",
-              "example": "64e4b11aae88711dbf14a156"
-            },
-            "category": {
-              "type": "string",
-              "description": "Notice`s category",
-              "example": "in-good-hands"
-            },
-            "title": {
-              "type": "string",
-              "description": "Notice`s title",
-              "example": "The kitten is looking for a home"
-            },
-            "name": {
-              "type": "string",
-              "description": "Pet`s name",
-              "example": "Melissa"
-            },
-            "dateOfBirth": {
-              "type": "string",
-              "description": "Pet`s birthday",
-              "example": "01.01.1991"
-            },
-            "type": {
-              "type": "string",
-              "description": "Pet`s type",
-              "example": "Norwegian forest cat"
-            },
-            "avatar": {
-              "type": "string",
-              "description": "Pet`s photo (must be less than 3mb)",
-              "format": "binary"
-            },
-            "sex": {
-              "type": "string",
-              "description": "Pet`s gender",
-              "example": "female"
-            },
-            "location": {
-              "type": "string",
-              "description": "Pet`s location",
-              "example": "Kyiv"
-            },
-            "owner": {
-              "type": "string",
-              "description": "Id of the user who added the notice",
-              "example": "64e472f86c786ae0f94d3af7"
-            },
-            "price": {
-              "type": "number",
-              "description": "Pet`s price (for sell category only)",
-              "example": "100"
-            },
-            "comments": {
-              "type": "string",
-              "description": "Some comment in the notice",
-              "example": "Gentle and intelligent cat"
+        "type": "object",
+        "properties": {
+          "notices": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "favorite": {
+                  "type": "array",
+                  "description": "User who added notice to favorites",
+                  "example": []
+                },
+                "_id": {
+                  "type": "string",
+                  "description": "Notice`s id",
+                  "example": "64e4b11aae88711dbf14a156"
+                },
+                "category": {
+                  "type": "string",
+                  "description": "Notice`s category",
+                  "example": "in-good-hands"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Notice`s title",
+                  "example": "The kitten is looking for a home"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Pet`s name",
+                  "example": "Melissa"
+                },
+                "dateOfBirth": {
+                  "type": "string",
+                  "description": "Pet`s birthday",
+                  "example": "01.01.1991"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Pet`s type",
+                  "example": "Norwegian forest cat"
+                },
+                "avatar": {
+                  "type": "string",
+                  "description": "Pet`s photo (must be less than 3mb)",
+                  "format": "binary"
+                },
+                "sex": {
+                  "type": "string",
+                  "description": "Pet`s gender",
+                  "example": "female"
+                },
+                "location": {
+                  "type": "string",
+                  "description": "Pet`s location",
+                  "example": "Kyiv"
+                },
+                "owner": {
+                  "type": "string",
+                  "description": "Id of the user who added the notice",
+                  "example": "64e472f86c786ae0f94d3af7"
+                },
+                "price": {
+                  "type": "number",
+                  "description": "Pet`s price (for sell category only)",
+                  "example": "100"
+                },
+                "comments": {
+                  "type": "string",
+                  "description": "Some comment in the notice",
+                  "example": "Gentle and intelligent cat"
+                }
+              }
             }
+          },
+          "currentPage": {
+            "type": "integer",
+            "description": "The numeric value of the current page",
+            "example": "1"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "The numeric value of all pages",
+            "example": "7"
           }
         }
       },
 
       "getUsersNoticeResponse": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "_id": {
-              "type": "string",
-              "description": "Notice`s id",
-              "example": "64e4b11aae88711dbf14a156"
-            },
-            "category": {
-              "type": "string",
-              "description": "Notice`s category",
-              "example": "in-good-hands"
-            },
-            "title": {
-              "type": "string",
-              "description": "Notice`s title",
-              "example": "The kitten is looking for a home"
-            },
-            "name": {
-              "type": "string",
-              "description": "Pet`s name",
-              "example": "Melissa"
-            },
-            "dateOfBirth": {
-              "type": "string",
-              "description": "Pet`s birthday",
-              "example": "01.01.1991"
-            },
-            "type": {
-              "type": "string",
-              "description": "Pet`s type",
-              "example": "Norwegian forest cat"
-            },
-            "sex": {
-              "type": "string",
-              "description": "Pet`s gender",
-              "example": "female"
-            },
-            "location": {
-              "type": "string",
-              "description": "Pet`s location",
-              "example": "Kyiv"
-            },
-            "favorite": {
-              "type": "array",
-              "description": "User who added notice to favorites",
-              "example": []
-            },
-            "price": {
-              "type": "number",
-              "description": "Pet`s price (for sell category only)",
-              "example": "100"
-            },
-            "owner": {
-              "type": "string",
-              "description": "Id of the user who added the notice",
-              "example": "64e472f86c786ae0f94d3af7"
-            },
-            "avatar": {
-              "type": "string",
-              "description": "Pet`s photo (must be less than 3mb)",
-              "format": "binary"
-            },
-            "comments": {
-              "type": "string",
-              "description": "Some comment in the notice",
-              "example": "Gentle and intelligent cat"
+        "type": "object",
+        "properties": {
+          "notices": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "Notice`s id",
+                  "example": "64e4b11aae88711dbf14a156"
+                },
+                "category": {
+                  "type": "string",
+                  "description": "Notice`s category",
+                  "example": "in-good-hands"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Notice`s title",
+                  "example": "The kitten is looking for a home"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Pet`s name",
+                  "example": "Melissa"
+                },
+                "dateOfBirth": {
+                  "type": "string",
+                  "description": "Pet`s birthday",
+                  "example": "01.01.1991"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Pet`s type",
+                  "example": "Norwegian forest cat"
+                },
+                "sex": {
+                  "type": "string",
+                  "description": "Pet`s gender",
+                  "example": "female"
+                },
+                "location": {
+                  "type": "string",
+                  "description": "Pet`s location",
+                  "example": "Kyiv"
+                },
+                "favorite": {
+                  "type": "array",
+                  "description": "User who added notice to favorites",
+                  "example": []
+                },
+                "price": {
+                  "type": "number",
+                  "description": "Pet`s price (for sell category only)",
+                  "example": "100"
+                },
+                "owner": {
+                  "type": "string",
+                  "description": "Id of the user who added the notice",
+                  "example": "64e472f86c786ae0f94d3af7"
+                },
+                "avatar": {
+                  "type": "string",
+                  "description": "Pet`s photo (must be less than 3mb)",
+                  "format": "binary"
+                },
+                "comments": {
+                  "type": "string",
+                  "description": "Some comment in the notice",
+                  "example": "Gentle and intelligent cat"
+                }
+              }
             }
+          },
+          "currentPage": {
+            "type": "integer",
+            "description": "The numeric value of the current page",
+            "example": "1"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "The numeric value of all pages",
+            "example": "1"
           }
         }
       },
@@ -1371,108 +1401,122 @@
         }
       },
       "getNewsByCategoryResponse": {
+        "type": "object",
+        "properties": {
+          "news": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "news id",
+                  "example": "64e4b11aae88711dbf14a156"
+                },
+                "imgUrl": {
+                  "type": "string",
+                  "description": "photo",
+                  "format": "binary"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "News title",
+                  "example": "In a First, Google Goes After Puppy Fraud in Court"
+                },
+
+                "date": {
+                  "type": "string",
+                  "description": "date of news",
+                  "example": "01.01.1991"
+                },
+
+                "text": {
+                  "type": "string",
+                  "description": "Pet`s location",
+                  "example": "text of news"
+                }
+              }
+            }
+          },
+          "currentPage": {
+            "type": "integer",
+            "description": "The numeric value of the current page",
+            "example": "1"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "The numeric value of all pages",
+            "example": "5"
+          }
+        }
+      },
+      "getFavoriteNotice": {
         "type": "array",
         "items": {
           "type": "object",
+          "required": [
+            "_id",
+            "category",
+            "title",
+            "name",
+            "dateOfBirth",
+            "type",
+            "sex",
+            "location",
+            "owner",
+            "favorite"
+          ],
           "properties": {
             "_id": {
               "type": "string",
-              "description": "news id",
+              "description": "Notice's id",
               "example": "64e4b11aae88711dbf14a156"
             },
-            "imgUrl": {
+            "category": {
               "type": "string",
-              "description": "photo",
-              "format": "binary"
+              "description": "Notice's category",
+              "example": "sell"
             },
             "title": {
               "type": "string",
-              "description": "News title",
-              "example": "In a First, Google Goes After Puppy Fraud in Court"
+              "description": "Notice's title",
+              "example": "pet which knows JAVASCRIPT"
             },
-
-            "date": {
+            "name": {
               "type": "string",
-              "description": "date of news",
-              "example": "01.01.1991"
+              "description": "Pet's name",
+              "example": "Wisdom"
             },
-
-            "text": {
+            "dateOfBirth": {
               "type": "string",
-              "description": "Pet`s location",
-              "example": "text of news"
+              "description": "Pet's birthday",
+              "example": "28.08.2022"
+            },
+            "type": {
+              "type": "string",
+              "description": "Pet's type",
+              "example": "senior"
+            },
+            "sex": {
+              "type": "string",
+              "description": "Pet's gender",
+              "example": "female"
+            },
+            "location": {
+              "type": "string",
+              "description": "Pet's location",
+              "example": "Somewhereland"
+            },
+            "owner": {
+              "type": "string",
+              "description": "Id of the user who added the notice",
+              "example": "83e472f86c786ae0f94d3ag8"
+            },
+            "favorite": {
+              "type": "string",
+              "description": "Pet's id",
+              "example": "11e7611c020204b68d963778"
             }
-          }
-        }
-      }
-    },
-
-    "getFavoriteNotice": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": [
-          "_id",
-          "category",
-          "title",
-          "name",
-          "dateOfBirth",
-          "type",
-          "sex",
-          "location",
-          "owner",
-          "favorite"
-        ],
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "Notice's id",
-            "example": "64e4b11aae88711dbf14a156"
-          },
-          "category": {
-            "type": "string",
-            "description": "Notice's category",
-            "example": "sell"
-          },
-          "title": {
-            "type": "string",
-            "description": "Notice's title",
-            "example": "pet which knows JAVASCRIPT"
-          },
-          "name": {
-            "type": "string",
-            "description": "Pet's name",
-            "example": "Wisdom"
-          },
-          "dateOfBirth": {
-            "type": "string",
-            "description": "Pet's birthday",
-            "example": "28.08.2022"
-          },
-          "type": {
-            "type": "string",
-            "description": "Pet's type",
-            "example": "senior"
-          },
-          "sex": {
-            "type": "string",
-            "description": "Pet's gender",
-            "example": "female"
-          },
-          "location": {
-            "type": "string",
-            "description": "Pet's location",
-            "example": "Somewhereland"
-          },
-          "owner": {
-            "type": "string",
-            "description": "Id of the user who added the notice",
-            "example": "83e472f86c786ae0f94d3ag8"
-          },
-          "favorite": {
-            "type": "string",
-            "description": "Pet's id",
-            "example": "11e7611c020204b68d963778"
           }
         }
       }
